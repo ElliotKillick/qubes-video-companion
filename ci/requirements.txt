@@ -1,0 +1,3 @@
+# WARNING: These requirements are for use by the CI system only (gitlab.com)
+# Otherwise, use the system package manager to ensure utmost security
+PyGObject

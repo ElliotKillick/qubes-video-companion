@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+# Licensed under the MIT License. See LICENSE file for details.
+
+[ "$DEBUG" == 1 ] && set -x
+
+set -E # Enable function inheritance of traps
+trap exit ERR
+
+webcam_device="/dev/video0"
+# This command exits with code 255 even though no error is reported
+v4l2_webcam_info="$(v4l2-ctl -d "$webcam_device" --all)" || [ $? == 255 ]
+
+dimensions="$(echo "$v4l2_webcam_info" | grep 'Width/Height' | awk '{ print $3 }')"
+width="$(echo "$dimensions" | awk -F / '{ print $1 }')"
+height="$(echo "$dimensions" | awk -F / '{ print $2 }')"
+
+frame_rate="$(v4l2-ctl -d "$webcam_device" --all | grep 'Frames per second' | awk '{ print $5 }' | tr -d '()')"
+fps="$(echo "$frame_rate" | awk -F / '{ print $1 }')" # Support a minimum of one frame per second
+
+echo "$width $height $fps"
+
+echo "Starting webcam stream at ${width}x${height} ${fps} FPS..." >&2
+
+source "/usr/share/qubes-video-companion/ui/ui.sh"
+trap 'remove_ui $!' EXIT
+create_ui webcam
+
+gst-launch-1.0 -q v4l2src ! \
+    queue ! \
+    "video/x-raw,width=$width,height=$height,framerate=$frame_rate,format=I420" ! \
+    fdsink

@@ -1,0 +1,3 @@
+@anyvm  @dispvm allow
+@anyvm	@anyvm	ask
+@anyvm	dom0 ask

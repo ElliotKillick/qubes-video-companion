@@ -1,0 +1,2 @@
+@anyvm	sys-usb	ask
+@anyvm	dom0 ask

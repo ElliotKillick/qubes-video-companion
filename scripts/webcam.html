@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<!--
+Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+Licensed under the MIT License. See LICENSE file for details.
+-->
+
+<html lang="en">
+    <head>
+        <title>Video Stream</title>
+    </head>
+
+    <video autoplay id="video"></video>
+
+    <script>
+        var video = document.querySelector("#video");
+
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function(err) {
+                    console.log("Failed to stream video!");
+                });
+        }
+    </script>
+</html>

@@ -1,0 +1,23 @@
+# Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+# Licensed under the MIT License. See LICENSE file for details.
+
+stages:
+  - Static Analysis
+
+shellcheck:
+  image: koalaman/shellcheck-alpine:latest
+  stage: Static Analysis
+  before_script:
+    - shellcheck --version
+  script:
+    - bash -c 'shopt -s globstar nullglob; shellcheck --external-sources --source-path=SCRIPTDIR **/*.sh'
+
+pylint:
+  image: python:latest
+  stage: Static Analysis
+  before_script:
+    - python --version
+    - pylint --vesrion
+    - pip install -r ci/requirements.txt
+  script:
+    - bash -c 'shopt -s globstar nullglob; pylint3 --exit-zero **/*.py'

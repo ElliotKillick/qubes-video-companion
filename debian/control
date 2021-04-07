@@ -1,0 +1,34 @@
+Source: qubes-video-companion
+Section: video
+Priority: optional
+Maintainer: Elliot Killick <elliotkillick@zohomail.eu>
+Build-Depends: debhelper-compat (= 12), pandoc
+Standards-Version: 4.5.0
+Homepage: https://github.com/elliotkillick/qubes-video-companion
+
+Package: qubes-video-companion
+Architecture: all
+Multi-Arch: foreign
+Depends: gir1.2-ayatanaappindicator3-0.1,
+         gstreamer1.0-plugins-good,
+         gstreamer1.0-tools,
+         python3,
+         ${misc:Depends}
+Description: Securely stream webcams and share screens across virtual machines
+ Qubes Video Companion is a tool for securely streaming webcams and sharing
+ screens across virtual machines.
+ .
+ It accomplishes this by creating a uni-directional flow of raw video that is
+ passed from one virtual machine to another through file descriptors thereby
+ allowing both machines to be completely air-gapped with no networking stacks
+ exposed. This design makes the side of the video sending virtual machine 100%
+ immune to attack and only leaves a very small attack surface on the side of the
+ video receiving virtual machine.
+ .
+ The project emphasizes correctness and security all the while also sporting
+ superb performance by maintaining a small footprint of the available
+ computational resources and low latency even at Full HD and greater resolutions
+ at 30 or more frames per second.
+ .
+ This package contains all components of Qubes Video companion excluding the
+ Qubes RPC policies which dom0 enforces.

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+# Licensed under the MIT License. See LICENSE file for details.
+
+[ "$DEBUG" == 1 ] && set -x
+
+set -E # Enable function inheritance of traps
+trap exit ERR
+
+usage() {
+    echo "Usage: qubes-video-companion webcam|screenshare"
+} >&2
+
+video_source="$1"
+
+case "$video_source" in
+    webcam)
+        qvc_service="qvc.Webcam"
+        ;;
+    screenshare)
+        qvc_service="qvc.ScreenShare"
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
+
+exit_clean() {
+    exit_code="$?"
+
+    /usr/share/qubes-video-companion/video/destroy.sh
+    sudo rm -f "$qvc_lock_file"
+
+    if [ "$video_source" == "webcam" ] && [ "$exit_code" == "141" ]; then
+        echo "The webcam device is in use! Please stop any instance of Qubes Video Companion running on another qube." >&2
+        exit 1
+    fi
+
+    exit "$exit_code"
+}
+
+qvc_lock_file="/run/lock/qubes-video-companion"
+if ! [ -f "$qvc_lock_file" ]; then
+    trap exit_clean EXIT
+    sudo touch "$qvc_lock_file"
+else
+    echo "Qubes Video Companion is already running! Please stop the previous session before starting a new one." >&2
+    exit 1
+fi
+
+/usr/share/qubes-video-companion/video/setup.sh
+# Disabling buffering should lower latency and it doesn't seem to impact performance
+# Filter standard error escape characters for safe printing to the terminal from the video sender
+cd /usr/share/qubes-video-companion/video || exit
+qrexec-client-vm dom0 "$qvc_service" /usr/share/qubes-video-companion/video/receiver.sh --buffer-size=0 --filter-escape-chars-stderr

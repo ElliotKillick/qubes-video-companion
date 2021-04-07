@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+# Licensed under the MIT License. See LICENSE file for details.
+
+[ "$DEBUG" == 1 ] && set -x
+
+set -E # Enable function inheritance of traps
+trap exit ERR
+
+export DISPLAY=":0"
+
+first_connected_screen_input_dimensions="$(xrandr | grep -w "connected" | head -1 | cut -d '+' -f 1 | awk '{ print $NF }')"
+
+width="$(echo "$first_connected_screen_input_dimensions" | awk -F x '{ print $1 }')"
+height="$(echo "$first_connected_screen_input_dimensions" | awk -F x '{ print $2 }')"
+
+fps="30"
+frame_rate="$fps/1"
+
+echo "$width $height $fps"
+
+echo "Starting screen sharing at ${width}x${height} ${fps} FPS..." >&2
+
+source "/usr/share/qubes-video-companion/ui/ui.sh"
+trap 'remove_ui $!' EXIT
+create_ui screenshare
+
+gst-launch-1.0 -q ximagesrc use-damage=false ! \
+    queue ! \
+    "video/x-raw,width=$width,height=$height,framerate=$frame_rate,format=BGRx" ! \
+    videoconvert ! \
+    "video/x-raw,format=I420" ! \
+    fdsink
