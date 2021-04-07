@@ -139,8 +139,8 @@ Audio is out of scope for this project in particular.
 
 ### Why is the webcam resolution lower than what my webcam is capable of?
 
-- The default resolution of the webcam can sometimes be undesirable
-- Set the resolution manually with [set-webcam-format.sh](scripts/set-webcam-format.sh)
+- The default resolution or frame rate of the webcam can sometimes be undesirable
+- Set these parameters manually with [set-webcam-format.sh](scripts/set-webcam-format.sh)
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
 
 ### Why can I perceive some latency in the video playback?
