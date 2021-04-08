@@ -11,7 +11,7 @@
 <div align="center">
     <img src="https://img.shields.io/gitlab/pipeline/elliotkillick/qubes-video-companion/master" alt="GitLab pipeline" />
     <img src="https://img.shields.io/github/commits-since/elliotkillick/qubes-video-companion/latest" alt="Commits since latest release" />
-    <a href="LICENSE">  
+    <a href="LICENSE">
         <img src="https://img.shields.io/github/license/elliotkillick/qubes-video-companion" alt="License" />
     </a>
 </div>
