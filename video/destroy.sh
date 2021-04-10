@@ -8,6 +8,7 @@
 set -E # Enable function inheritance of traps
 trap exit ERR
 
+# shellcheck source=common.sh
 source /usr/share/qubes-video-companion/video/common.sh
 
 if ! test_v4l2loopback; then

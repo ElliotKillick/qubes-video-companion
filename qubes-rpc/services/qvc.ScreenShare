@@ -22,6 +22,7 @@ echo "$width $height $fps"
 
 echo "Starting screen sharing at ${width}x${height} ${fps} FPS..." >&2
 
+# shellcheck source=../../ui/ui.sh
 source "/usr/share/qubes-video-companion/ui/ui.sh"
 trap 'remove_ui $!' EXIT
 create_ui screenshare

@@ -23,4 +23,4 @@ pylint:
     - pylint --version
     - pip install -r ci/requirements.txt
   script:
-    - find ./ -type f -name '*.py' | xargs pylint --exit-zero'
+    - find ./ -type f -name '*.py' | xargs pylint --exit-zero
