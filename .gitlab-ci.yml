@@ -18,10 +18,8 @@ pylint:
   before_script:
     - python --version
     - pip --version
-    - pip3 --version
-    - pip install --upgrade pip
     - pip install pylint
     - pylint --version
-    - pip install -r ci/requirements.txt
+    - sudo apt-get install libgirepository1.0-dev
   script:
     - bash -c 'shopt -s globstar nullglob; pylint3 --exit-zero **/*.py'
