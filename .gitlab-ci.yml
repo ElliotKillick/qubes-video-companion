@@ -20,6 +20,6 @@ pylint:
     - pip --version
     - pip install pylint
     - pylint --version
-    - apt-get install libgirepository1.0-dev
+    - apt-get -y install gir1.2-ayatanaappindicator3-0.1
   script:
     - bash -c 'shopt -s globstar nullglob; pylint3 --exit-zero **/*.py'
