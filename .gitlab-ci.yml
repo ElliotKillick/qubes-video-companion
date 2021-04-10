@@ -13,7 +13,7 @@ shellcheck:
     - apt-get -y install bash
     - bash --version
   script:
-    - bash -c 'shopt -s globstar nullglob; shellcheck --external-sources --source-path=SCRIPTDIR **/*.sh'
+    - bash
 
 pylint:
   image: python:latest
