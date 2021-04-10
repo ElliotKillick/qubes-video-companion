@@ -17,6 +17,9 @@ pylint:
   stage: Static Analysis
   before_script:
     - python --version
+    - pip --version
+    - pip3 --version
+    - pip install --upgrade pip
     - pip install pylint
     - pylint --version
     - pip install -r ci/requirements.txt
