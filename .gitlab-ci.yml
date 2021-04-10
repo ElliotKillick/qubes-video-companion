@@ -5,7 +5,7 @@ stages:
   - Static Analysis
 
 shellcheck:
-  image: koalaman/shellcheck-alpine:latest
+  image: koalaman/shellcheck:latest
   stage: Static Analysis
   before_script:
     - shellcheck --version
