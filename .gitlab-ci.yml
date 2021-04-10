@@ -5,15 +5,13 @@ stages:
   - Static Analysis
 
 shellcheck:
-  image: koalaman/shellcheck:latest
+  image: koalaman/shellcheck-alpine:latest
   stage: Static Analysis
   before_script:
     - shellcheck --version
-    - apt-get update
-    - apt-get -y install bash
-    - bash --version
   script:
-    - bash
+    - find ./ -type f -name '*.sh' | xargs shellcheck --external-sources --source-path=SCRIPTDIR
+    - find ./qubes-rpc/services -type f -name '*' | xargs shellcheck --external-sources --source-path=SCRIPTDIR
 
 pylint:
   image: python:latest
@@ -25,4 +23,4 @@ pylint:
     - pylint --version
     - pip install -r ci/requirements.txt
   script:
-    - bash -c 'shopt -s globstar nullglob; pylint --exit-zero **/*.py'
+    - find ./ -type f -name '*.py' | xargs pylint --exit-zero'
