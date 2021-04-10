@@ -100,21 +100,21 @@ Here is a review of the security concerns webcams entail that Qubes users either
     - Only small parts of two kernel modules ever touch untrusted video data: [`v4l2loopback`](https://github.com/umlaeute/v4l2loopback) and the Video4Linux2 (V4L2) driver in mainline Linux
         - This is a massive improvement to what it would have been previously using USBIP over Qubes RPC for passing through a USB webcam device thereby exposing the entire Linux USB stack to a potential attacker
     - Kernel modules are reloaded between Qubes Video Companion sessions to ensure a clean state
-- The video dimensions and FPS are sanitized by the video receiver to ensure they contain no extraneous GStreamer capabilities
+- The video dimensions and FPS parameters are sanitized by the video receiver to ensure they contain no extraneous GStreamer capabilities
 - No TCP/IP networking stacks are exposed
     - Communication is performed through file descriptors that run between virtual machines using the simple point-to-point protocol that is [Qubes RPC](https://www.qubes-os.org/doc/qrexec/) (built upon Xen vchan under the hood)
 - Mitigates vulnerabilities in the webcam firmware
     - With Qubes Video Companion, the virtual machine receiving the webcam video stream never has direct hardware access to the webcam device thus rendering firmware tinkering impossible
     - Firmware vulnerabilities as demonstrated in [this paper](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-brocker.pdf) could allow an attacker to disable the webcam LED indicator or even perform a VM escape (or at least an escape to `sys-usb`)
-    - Here is a good [WIRED article](https://www.wired.com/story/firmware-hacks-vulnerable-pc-components-peripherals/) on the state of firmware security
+    - Here is a good [WIRED article](https://www.wired.com/story/firmware-hacks-vulnerable-pc-components-peripherals/) on the state of firmware security and why it must not be trusted
 - Ability to separate the video and microphone capabilities that many webcams feature
-    - Webcam microphones are often very sensitive picking up lots of background noise which serves as an information leak should the virtual machine it's being passed through be compromised
+    - Webcam microphones are often very sensitive picking up lots of background noise which serves as an information leak should the virtual machine it's being passed through to be compromised
         - This mitigates listening to keystrokes as a method of keylogging the entire system
-            - Public implementations for conducting this type of attack in practice [already exist](https://github.com/shoyo/acoustic-keylogger)
-            - This is also a mitigation for other [acoustic side-channel attacks](https://en.wikipedia.org/wiki/Acoustic_cryptanalysis)
+            - Public implementations for conducting this type of attack in practice [already exist](https://github.com/shoyo/acoustic-keylogger) so it's not an unrealistic concern
+            - This also serves as a mitigation for other types of [acoustic side-channel attacks](https://en.wikipedia.org/wiki/Acoustic_cryptanalysis) (e.g. encryption key extraction through acoustic machine emanations)
         - Removes possibility of hearing background conversations
     - Instead, connect only the desired microphone such as one that comes part of a headset or even none at all using PulseAudio (please see the FAQ)
-- Conscious effort was made to base this project off of software with good security track record
+- Conscious effort was made to base this project only on software with good security track records
     - GStreamer instead of FFmpeg
 - Allows for better isolation of complex (and unfortunately often proprietary) video conferencing software often used with webcams that is commonly the subject of many critical vulnerabilities (e.g. Zoom)
 - As has been well noted [here](https://github.com/QubesOS/qubes-issues/issues/2079#issuecomment-226942065), this project does _not_ solve the privacy issue of an already compromised (as a result of a malicious USB device) `sys-usb` sniffing the webcam video stream and leaking that data to other USB devices
@@ -140,7 +140,7 @@ Audio is out of scope for this project in particular.
 ### Why is the webcam resolution lower than what my webcam is capable of?
 
 - The default resolution and/or frame rate of the webcam as set by the Video4Linux2 driver can sometimes be undesirable
-- Set these parameters manually with [set-webcam-format.sh](scripts/set-webcam-format.sh)
+- Set these parameters manually on the virtual machine with the webcam device attached using [set-webcam-format.sh](scripts/set-webcam-format.sh)
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
 - Currently in the process of finding a more elegant solution for this
 
@@ -158,7 +158,7 @@ To fix the latency, do one or more of the following:
     - E.g. For OBS, right-click the video preview and uncheck `Enable preview` when recording
 2. Pause any videos from playing (e.g. YouTube videos) in any of the VMs
 3. Assign more vCPUs to the video receiving VM
-    - The video rendering workload lends quite nicely to multithreading so the more vCPUs the better
+    - The video rendering workload lends decently to multithreading so the more vCPUs the better
     - The vCPU count can be changed in the settings for that qube
 4. Reduce the resolution and/or frame rate the webcam is recording at to a supported lower quality setting
     - Refer to [set-webcam-format.sh](scripts/set-webcam-format.sh)
@@ -180,7 +180,7 @@ To fix the latency, do one or more of the following:
 
 A basic overview is provided in the About section of this `README`.
 
-For information on the pipeline, check out `doc/pipeline-design.md` and the accompanying diagrams in `doc/visualizations`. This will provide insight to the thought process that went into some of the design decisions made in this project along with illustrations of the pipeline internals.
+For information on the pipeline, check out [`pipeline-design.md`](doc/pipeline-design.md) and the accompanying diagrams in the [`visualizations`](doc/visualizations) folder. This will provide insight to the thought process that went into some of the design decisions made in this project along with illustrations of the pipeline internals.
 
 The user interface components are created with GTK 3, GObject and AppIndicator (because GTK deprecated `GtkStatusIcon`).
 
@@ -203,6 +203,8 @@ This project is the product of an independent effort that is not officially endo
 - [Zoom](https://zoom.us)
 
 ## Webcam Hardware Compatibility List (HCL)
+
+This is the list of webcams confirmed to work with Qubes Video Companion.
 
 The model of a given webcam can be found by running `v4l2-ctl --list-devices` in the virtual machine with the webcam device attached.
 
