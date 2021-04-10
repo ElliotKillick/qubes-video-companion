@@ -9,6 +9,7 @@ shellcheck:
   stage: Static Analysis
   before_script:
     - shellcheck --version
+    - bash --version
   script:
     - bash -c 'shopt -s globstar nullglob; shellcheck --external-sources --source-path=SCRIPTDIR **/*.sh'
 
@@ -20,6 +21,6 @@ pylint:
     - pip --version
     - pip install pylint
     - pylint --version
-    - apt-get -y install gir1.2-ayatanaappindicator3-0.1
+    - pip install -r ci/requirements.txt
   script:
     - bash -c 'shopt -s globstar nullglob; pylint3 --exit-zero **/*.py'
