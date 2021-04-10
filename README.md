@@ -116,7 +116,7 @@ Here is a review of the security concerns webcams entail that Qubes users either
     - Instead, connect only the desired microphone such as one that comes part of a headset or even none at all using PulseAudio (please see the FAQ)
 - Conscious effort was made to base this project off of software with good security track record
     - GStreamer instead of FFmpeg
-- Allows for better isolation of complex (and often proprietary) video conferencing software often used with webcams that is commonly the subject of many critical vulnerabilities (e.g. Zoom)
+- Allows for better isolation of complex (and unfortunately often proprietary) video conferencing software often used with webcams that is commonly the subject of many critical vulnerabilities (e.g. Zoom)
 - As has been well noted [here](https://github.com/QubesOS/qubes-issues/issues/2079#issuecomment-226942065), this project does _not_ solve the privacy issue of an already compromised (as a result of a malicious USB device) `sys-usb` sniffing the webcam video stream and leaking that data to other USB devices
     - Leaking data over the network is already prevented through air-gapping `sys-usb`
     - However, the unidirectional communication of video data from `sys-usb` this project institutes 100% guarantees that it cannot be compromised in the first place through the use of a webcam
@@ -139,9 +139,10 @@ Audio is out of scope for this project in particular.
 
 ### Why is the webcam resolution lower than what my webcam is capable of?
 
-- The default resolution or frame rate of the webcam can sometimes be undesirable
+- The default resolution and/or frame rate of the webcam as set by the Video4Linux2 driver can sometimes be undesirable
 - Set these parameters manually with [set-webcam-format.sh](scripts/set-webcam-format.sh)
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
+- Currently in the process of finding a more elegant solution for this
 
 ### Why can I perceive some latency in the video playback?
 
