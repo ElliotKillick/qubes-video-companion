@@ -10,6 +10,7 @@
 
 <div align="center">
     <img src="https://img.shields.io/gitlab/pipeline/elliotkillick/qubes-video-companion/master" alt="GitLab pipeline" />
+    <img src="https://img.shields.io/github/v/release/elliotkillick/qubes-video-companion" alt="GitLab pipeline" />
     <img src="https://img.shields.io/github/commits-since/elliotkillick/qubes-video-companion/latest" alt="Commits since latest release" />
     <a href="LICENSE">
         <img src="https://img.shields.io/github/license/elliotkillick/qubes-video-companion" alt="License" />
@@ -28,9 +29,9 @@ The project emphasizes correctness and security all the while also sporting supe
 
 **WIP: Currently in the process of becoming part of the Qubes Contribution Repo**
 
-Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
+**For testers (thank you for your help!), please `git clone` this repo and `git checkout` the latest version tag then proceed to build the package yourself**
 
-For security reasons, please refrain from installing the Qubes Video Companion package from GitHub Releases, those are just there for show.
+Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
 
 ### Run the following commands in Dom0 (AdminVM)
 1. `sudo qubes-dom0-update qubes-repo-contrib`
