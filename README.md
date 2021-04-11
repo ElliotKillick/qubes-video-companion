@@ -144,7 +144,7 @@ Audio is out of scope for this project in particular.
 - Set these parameters manually on the virtual machine with the webcam device attached using [set-webcam-format.sh](scripts/set-webcam-format.sh)
     - If the default parameters in that script don't work, use the `qv4l2` (packaged as: `qv4l2`) tool to find the best settings for any given webcam
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
-- Currently in the process of finding a more elegant solution for this issue: #4
+- Currently in the process of finding a more elegant solution for this issue: [#4](https://github.com/elliotkillick/qubes-video-companion/issues/4)
 
 ### Why can I perceive some latency in the video playback?
 
@@ -216,7 +216,7 @@ The model of a given webcam can be found by running `v4l2-ctl --list-devices` in
 
 - [x] Implement a solution for secure webcam utilization that sufficiently addresses the concerns brought up in this in-depth paper on webcam firmware security: [iSeeYou: Disabling the MacBook Webcam Indicator LED](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-brocker.pdf) ([Google Scholar](https://scholar.google.ca/scholar?q=iSeeYou%3A+Disabling+the+MacBook+Webcam+Indicator)) by Johns Hopkins University
     - The end product should be capable of fully protecting at risk individuals such as those documented in the case studies of this [MIT paper](https://courses.csail.mit.edu/6.857/2014/files/03-jayaram-lui-nguyen-zakarian-preventing-covert-webcam-hacking) in practice (assuming they are Qubes users)
-- [x] Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a painstaking, insecure and computationally expensive (in CPU and RAM!) experience:
+- [x] Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a painstaking, insecure and computationally expensive (in CPU and RAM) experience:
     - Cannot use a USB camera: [#4035](https://github.com/QubesOS/qubes-issues/issues/4035)
     - Feature: Trusted stream for webcam input: [#2079](https://github.com/QubesOS/qubes-issues/issues/2079)
 - [x] Add secure screen sharing functionality between qubes
