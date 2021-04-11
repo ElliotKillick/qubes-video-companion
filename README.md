@@ -29,7 +29,7 @@ The project emphasizes correctness and security all the while also sporting supe
 
 **WIP: Currently still need to apply or in the process of becoming part of the Qubes Contribution Repo**
 
-**For testers (thank you for your help!), please `git clone` this repo and `git checkout` the latest version tag then proceed to build the package yourself**
+**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself.**
 
 Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
 
