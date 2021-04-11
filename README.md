@@ -29,7 +29,7 @@ The project emphasizes correctness and security all the while also sporting supe
 
 **WIP: Currently still need to apply or in the process of becoming part of the Qubes Contribution Repo**
 
-**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself.**
+**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself. Alternatively, `make install-<vm/dom0>` can also be done.**
 
 Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
 
@@ -37,7 +37,7 @@ Qubes Video Companion is available for installation on Qubes OS in packaged form
 1. `sudo qubes-dom0-update qubes-repo-contrib`
 2. `sudo qubes-dom0-update --clean qubes-video-companion`
 
-### Run the following commands in a TemplateVM
+### Run the following commands in a TemplateVM or AppVM
 
 #### Fedora
 1. `sudo dnf install qubes-repo-contrib`
@@ -64,7 +64,7 @@ Simply run the following command in the virtual machine of the screen sharing re
 
 `qubes-video-companion screenshare`
 
-A secure confirmation dialog will appear asking where the screen to share is to be sourced from. Select any qube as the target screen, this could be a regular unprivileged qube such as `personal` or a [DisposableVM](https://www.qubes-os.org/doc/disposablevm/), or an ultimately trusted one such as `dom0` (caution is advised to avoid information disclosure. Afterwards, confirm the operation by clicking `OK`.
+A secure confirmation dialog will appear asking where the screen to share is to be sourced from. Select any qube as the target screen, this could be a regular unprivileged qube such as `personal` or a [DisposableVM](https://www.qubes-os.org/doc/disposablevm/), or the ultimately trusted `dom0` (caution is advised to avoid information disclosure. Afterwards, confirm the operation by clicking `OK`.
 
 Note that confirmation isn't required when a VM wants to view the screen of a DisposableVM it launched itself because the parent VM already has full control over the DisposableVM.
 
@@ -138,12 +138,13 @@ The microphone of a webcam can be utilized by configuring it as the recording de
 
 Audio is out of scope for this project in particular.
 
-### Why is the webcam resolution lower than what my webcam is capable of?
+### Why is the webcam resolution or frame rate lower than what my webcam is capable of?
 
-- The default resolution and/or frame rate of the webcam as set by the Video4Linux2 driver can sometimes be undesirable
+- The default parameters of the Video4Linux2 device can sometimes be undesirable
 - Set these parameters manually on the virtual machine with the webcam device attached using [set-webcam-format.sh](scripts/set-webcam-format.sh)
+    - If the default parameters in that script don't work, use the `qv4l2` (packaged as: `qv4l2`) tool to find the best settings for any given webcam
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
-- Currently in the process of finding a more elegant solution for this
+- Currently in the process of finding a more elegant solution for this issue: #4
 
 ### Why can I perceive some latency in the video playback?
 
