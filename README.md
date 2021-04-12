@@ -29,7 +29,7 @@ The project emphasizes correctness and security all the while also sporting supe
 
 **WIP: Currently still need to apply or in the process of becoming part of the Qubes Contribution Repo**
 
-**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself. Alternatively, `make install-<vm/dom0>` can also be done.**
+**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself. Alternatively, `make install-<vm/dom0>` can be done.**
 
 Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
 
@@ -148,7 +148,7 @@ Audio is out of scope for this project in particular.
 
 ### Why can I perceive some latency in the video playback?
 
-This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
+This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as: `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
 
 It's important to remember that for security reasons, qubes do not have access to the GPU and so therefore must rely entirely on the CPU even for graphical workloads.
 
