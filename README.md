@@ -118,6 +118,7 @@ Here is a review of the security concerns webcams entail that Qubes users either
 - Conscious effort was made to base this project only on software with good security track records
     - GStreamer instead of FFmpeg
 - Allows for better isolation of complex (and unfortunately often proprietary) video conferencing software often used with webcams that is commonly the subject of many critical vulnerabilities (e.g. Zoom)
+    - Such as the recent remote code execution (RCE) [vulnerability discovered in Zoom](https://blog.malwarebytes.com/exploits-and-vulnerabilities/2021/04/zoom-zero-day-discovery-makes-calls-safer-hackers-200000-richer/)
 - As has been well noted [here](https://github.com/QubesOS/qubes-issues/issues/2079#issuecomment-226942065), this project does _not_ solve the privacy issue of an already compromised (as a result of a malicious USB device) `sys-usb` sniffing the webcam video stream and leaking that data to other USB devices
     - Leaking data over the network is already prevented through air-gapping `sys-usb`
     - However, the unidirectional communication of video data from `sys-usb` this project institutes 100% guarantees that it cannot be compromised in the first place through the use of a webcam
