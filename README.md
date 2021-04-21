@@ -123,7 +123,7 @@ Here is a review of the security concerns webcams entail that Qubes users either
     - Leaking data over the network is already prevented through air-gapping `sys-usb`
     - However, the unidirectional communication of video data from `sys-usb` this project institutes 100% guarantees that it cannot be compromised in the first place through the use of a webcam
         - This assumes that the webcam itself isn't backdoored perhaps through a [supply chain attack](https://en.wikipedia.org/wiki/Supply_chain_attack) which have been on the rise lately (e.g.  SolarWinds compromise)
-- All GitHub releases are signed by the project maintainer's PGP key
+- All Git release tags are signed by the project maintainer's PGP key
     - All commits by the maintainer are also always signed with their PGP key
     - Should signing ever cease, assume compromise
     - Current maintainer: [Elliot Killick](https://github.com/elliotkillick) <a href="https://keybase.io/elliotkillick" target="_blank"><img src="https://img.shields.io/keybase/pgp/elliotkillick" alt="PGP key" /></a>
@@ -157,8 +157,7 @@ To fix the latency, do one or more of the following:
 
 1. Remove or shrink the size of any windows playing back the video stream being shared to the video receiving VM
     - Just like in video editing, playing back raw, unencoded video in realtime is a very computationally expensive task that takes much more processing power than recording and in this case even sharing the video across VMs combined
-        - This issue is magnified when no GPU is available
-    - E.g. For OBS, right-click the video preview and uncheck `Enable preview` when recording
+    - For example, in OBS, right-click the video preview and uncheck `Enable preview` when recording
 2. Pause any videos from playing (e.g. YouTube videos) in any of the VMs
 3. Assign more vCPUs to the video receiving VM
     - The video rendering workload lends decently to multithreading so the more vCPUs the better
@@ -173,7 +172,7 @@ To fix the latency, do one or more of the following:
 - FFmpeg isn't included in the base Fedora repositories due to patent issues
     - Where FFmpeg is monolithic; GStreamer is modular allowing for the patent unencumbered components to be included in Fedora base repositories
 - GStreamer (at least the base and good plugins which is all we're using) has more efficient, clean and performant code
-- GStreamer has better cross-platform support for future development ([Source]([this](https://github.com/FNA-XNA/FAudio/pull/161)))
+- GStreamer has better cross-platform support for future development ([Source](https://github.com/FNA-XNA/FAudio/pull/161))
 - GStreamer has superior documentation
 - FFmpeg has its advantages in some areas, but for this project, GStreamer is the way to go
     - FFmpeg is more flexible and easier to use (more "magic")
