@@ -47,7 +47,7 @@ make DESTDIR=%{?buildroot} install-vm install-license
 %files
 %{_licensedir}/qubes-video-companion/LICENSE
 %{_docdir}/qubes-video-companion/README.md
-%{_docdir}/qubes-video-companion/pipeline-design.md
+%{_docdir}/qubes-video-companion/pipeline.md
 %{_docdir}/qubes-video-companion/visualizations/*
 %{_mandir}/man1/qubes-video-companion.1.gz
 %{_bindir}/qubes-video-companion

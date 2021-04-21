@@ -70,7 +70,7 @@ Note that confirmation isn't required when a VM wants to view the screen of a Di
 
 ### Preview
 
-At this point, install and open an application such as Cheese (packaged as: `cheese`) to preview the webcam or screen shared video stream. You're all set!
+At this point, install and open an application such as Cheese (packaged as `cheese`) to preview the webcam or screen shared video stream. You're all set!
 
 ## Security
 
@@ -80,7 +80,7 @@ Here is a review of the security concerns webcams entail that Qubes users either
     - This tray icon and notification is created by the video sender so it's impossible for an attacker to forcefully obfuscate or remove it
     - This is especially important for screen sharing because whereas most webcams have an indicator light to inform the user of when they are in use; screen sharing has no such mechanism
 - One-way only communication from the video sending machine to the video receiving machine thus guaranteeing the security of the sender
-    - This is absolutely crucial because the sender, typically `sys-usb`, has a lot of exposed hypervisor and hardware attack surface
+    - This is crucial because the sender, typically `sys-usb`, has a lot of exposed hypervisor and hardware attack surface
         - This is due to having all USB devices in the form of the entire [USB controller PCI device](https://www.qubes-os.org/doc/device-handling-security/#pci-security) passed through to it
         - Additionally, for PCI passthrough `sys-usb` must be an HVM (as opposed to a PVH) domain which is far more complex and has proven to be the source of many more bugs
         - These vulnerabilities are very real and common, case in point:
@@ -113,8 +113,8 @@ Here is a review of the security concerns webcams entail that Qubes users either
         - This mitigates listening to keystrokes as a method of keylogging the entire system
             - Public implementations for conducting this type of attack in practice [already exist](https://github.com/shoyo/acoustic-keylogger) so it's not an unrealistic concern
             - This also serves as a mitigation for other types of [acoustic side-channel attacks](https://en.wikipedia.org/wiki/Acoustic_cryptanalysis) (e.g. encryption key extraction through acoustic machine emanations)
-        - Removes possibility of hearing background conversations
-    - Instead, connect only the desired microphone such as one that comes part of a headset or even none at all using PulseAudio (please see the FAQ)
+        - Removes the possibility of hearing background conversations
+    - Instead, connect only the desired microphone such as one that comes as part of a headset or even none at all using PulseAudio (please see the FAQ)
 - Conscious effort was made to base this project only on software with good security track records
     - GStreamer instead of FFmpeg
 - Allows for better isolation of complex (and unfortunately often proprietary) video conferencing software often used with webcams that is commonly the subject of many critical vulnerabilities (e.g. Zoom)
@@ -143,15 +143,15 @@ Audio is out of scope for this project in particular.
 
 - The default parameters of the Video4Linux2 device can sometimes be undesirable
 - Set these parameters manually on the virtual machine with the webcam device attached using [set-webcam-format.sh](scripts/set-webcam-format.sh)
-    - If the default parameters in that script don't work, use the `qv4l2` (packaged as: `qv4l2`) tool to find the best settings for any given webcam
+    - If the default parameters in that script don't work, use the `qv4l2` (packaged as `qv4l2`) tool to find the best settings for any given webcam
     - This script is installed in: `/usr/share/qubes-video-companion/scripts`
 - Currently in the process of finding a more elegant solution for this issue: [#4](https://github.com/elliotkillick/qubes-video-companion/issues/4)
 
 ### Why can I perceive some latency in the video playback?
 
-This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as: `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
+This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
 
-It's important to remember that for security reasons, qubes do not have access to the GPU and so therefore must rely entirely on the CPU even for graphical workloads.
+It's important to remember that for security reasons, qubes do not have access to the GPU and so, therefore, must rely entirely on the CPU even for graphical workloads.
 
 To fix the latency, do one or more of the following:
 
@@ -169,21 +169,22 @@ To fix the latency, do one or more of the following:
 ### Why GStreamer instead of FFmpeg?
 
 - GStreamer has a much better security track record than FFmpeg
-    - Even a broad search for all CVEs containing the term ["GStreamer"](https://nvd.nist.gov/vuln/search/results?query=gstreamer) shows far less vulnerabilities than what has specifically been assigned to the [FFmpeg project](https://www.cvedetails.com/product/6315/Ffmpeg-Ffmpeg.html?vendor_id=3611)
-- FFmpeg is not in included in the base Fedora repositories due to patenting issues
-    - Where FFmpeg is monolithic; GStreamer is modular allowing for the patent unencumbered components to be included in base Fedora repositories
+    - Even a broad search for all CVEs containing the term ["GStreamer"](https://nvd.nist.gov/vuln/search/results?query=gstreamer) shows far fewer vulnerabilities than what has specifically been assigned to the [FFmpeg project](https://www.cvedetails.com/product/6315/Ffmpeg-Ffmpeg.html?vendor_id=3611)
+- FFmpeg isn't included in the base Fedora repositories due to patent issues
+    - Where FFmpeg is monolithic; GStreamer is modular allowing for the patent unencumbered components to be included in Fedora base repositories
 - GStreamer (at least the base and good plugins which is all we're using) has more efficient, clean and performant code
-- GStreamer has better cross-platform support for future development
+- GStreamer has better cross-platform support for future development ([Source]([this](https://github.com/FNA-XNA/FAudio/pull/161)))
 - GStreamer has superior documentation
 - FFmpeg has its advantages in some areas, but for this project, GStreamer is the way to go
-    - FFmpeg is more flexible and easier to learn (more "magic")
+    - FFmpeg is more flexible and easier to use (more "magic")
     - It has better and more special effects for video editing
+    - Supports a wider range of formats and codecs
 
 ### How does it work?
 
 A basic overview is provided in the About section of this `README`.
 
-For information on the pipeline, check out [`pipeline-design.md`](doc/pipeline-design.md) and the accompanying diagrams in the [`visualizations`](doc/visualizations) folder. This will provide insight to the thought process that went into some of the design decisions made in this project along with illustrations of the pipeline internals.
+For information on the GStreamer pipeline, check out [`pipeline.md`](doc/pipeline.md) and the accompanying diagrams in the [`visualizations`](doc/visualizations) folder. This will provide insight to the thought process that went into some of the design decisions made in this project along with illustrations of the pipeline internals.
 
 The user interface components are created with GTK 3, GObject and AppIndicator (because GTK deprecated `GtkStatusIcon`).
 
@@ -217,7 +218,7 @@ The model of a given webcam can be found by running `v4l2-ctl --list-devices` in
 
 - [x] Implement a solution for secure webcam utilization that sufficiently addresses the concerns brought up in this in-depth paper on webcam firmware security: [iSeeYou: Disabling the MacBook Webcam Indicator LED](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-brocker.pdf) ([Google Scholar](https://scholar.google.ca/scholar?q=iSeeYou%3A+Disabling+the+MacBook+Webcam+Indicator)) by Johns Hopkins University
     - The end product should be capable of fully protecting at risk individuals such as those documented in the case studies of this [MIT paper](https://courses.csail.mit.edu/6.857/2014/files/03-jayaram-lui-nguyen-zakarian-preventing-covert-webcam-hacking) in practice (assuming they are Qubes users)
-- [x] Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a painstaking, insecure and computationally expensive (in CPU and RAM) experience:
+- [x] Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a dodgy, insecure and computationally expensive (in CPU and RAM) experience:
     - Cannot use a USB camera: [#4035](https://github.com/QubesOS/qubes-issues/issues/4035)
     - Feature: Trusted stream for webcam input: [#2079](https://github.com/QubesOS/qubes-issues/issues/2079)
 - [x] Add secure screen sharing functionality between qubes

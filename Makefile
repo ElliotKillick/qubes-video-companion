@@ -44,7 +44,7 @@ install-both:
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_PROGRAM) scripts/set-webcam-format.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)
-	$(INSTALL_DATA) README.md doc/pipeline-design.md $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)
+	$(INSTALL_DATA) README.md doc/pipeline.md $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)/visualizations
 	$(INSTALL_DATA) doc/visualizations/* $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)/visualizations
 
