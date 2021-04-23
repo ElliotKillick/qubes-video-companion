@@ -11,7 +11,18 @@
 
 [ "$DEBUG" == 1 ] && set -x
 
+clone_dir="/tmp"
+
+exit_clean() {
+    exit_code="$?"
+
+    rm -rf "$clone_dir/v4l2loopback"
+
+    exit "$exit_code"
+}
+
 set -E # Enable function inheritance of traps
+trap exit_clean EXIT
 trap exit ERR
 
 local_dir="$(dirname "$(readlink -f "$0")")"
@@ -23,11 +34,16 @@ local_dir="$(dirname "$(readlink -f "$0")")"
 
 gpg --import "$local_dir/author.asc"
 
-cd /tmp || exit
+cd "$clone_dir" || exit
 git clone https://github.com/umlaeute/v4l2loopback
 cd v4l2loopback || exit
 
 latest_version_tag="$(git describe --abbrev=0)"
+
+# Fix "gpg.program=qubes-gpg-client-wrapper" causing "git verify-tag" to fail in cases where Qubes Split GPG is in use
+# Set "gpg.program=gpg" locally for this repo
+git config gpg.program gpg
+
 if ! git verify-tag "$latest_version_tag"; then
     echo "Failed to verify v4l2loopback author PGP key!" >&2
     exit 1
@@ -36,6 +52,3 @@ git checkout "$latest_version_tag"
 
 make
 sudo make install
-
-cd .. || exit
-rm -rf v4l2loopback
