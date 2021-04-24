@@ -8,7 +8,7 @@ def main():
     """Program entry point"""
 
     # For testing
-    file = open("scripts/video-formats", 'r')
+    file = open("scripts/webcam-formats", 'r')
     webcam_supported_formats = file.read().replace('\t', '').splitlines()
 
     # Can't use capture_output because Python version in dom0 is too old
