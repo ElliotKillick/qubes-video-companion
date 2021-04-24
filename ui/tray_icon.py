@@ -15,7 +15,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-# Prefer AyatanaAppIndicator becuase it's under active development
+# Prefer AyatanaAppIndicator because it's under active development
 # This is opposed to AppIndicator which is abandonware
 # Fallback on old AppIndicator for Qubes R4.0 dom0 which uses Fedora 25
 try:
@@ -36,8 +36,9 @@ class TrayIcon(user_interface.UserInterface):
     def create(self):
         """Create tray icon"""
 
-        category = AppIndicator.IndicatorCategory.APPLICATION_STATUS
-        self.indicator = AppIndicator.Indicator.new(self.app, self.video_source_to_icon(), category)
+        self.indicator = AppIndicator.Indicator.new(self.app, self.video_source_to_icon(),
+                                                    AppIndicator.IndicatorCategory.
+                                                    APPLICATION_STATUS)
         self.indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
         self.indicator.set_menu(self.menu())
 
