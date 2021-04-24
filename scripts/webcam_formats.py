@@ -53,6 +53,7 @@ class WebcamFormatsParser():
             line = self.formats[self.line_idx]
 
             if line.startswith("Pixel Format"):
+                # Print while removing surrounding single quotes (') junk
                 print(line.split()[2].replace("'", ""))
 
             if line.startswith("Size"):
