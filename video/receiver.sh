@@ -8,7 +8,7 @@
 set -E # Enable function inheritance of traps
 trap exit ERR
 
-read -r untrusted_width untrusted_height untrusted_fps
+read -rn 32 untrusted_width untrusted_height untrusted_fps
 
 # Prevent injection of any additional capabilities to the GStreamer pipeline
 # This also removes terminal escape sequences for printing to the terminal
