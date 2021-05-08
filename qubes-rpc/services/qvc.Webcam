@@ -30,5 +30,6 @@ create_ui webcam
 
 gst-launch-1.0 -q v4l2src ! \
     queue ! \
-    "video/x-raw,width=$width,height=$height,framerate=$frame_rate,format=I420" ! \
+    jpegdec ! \
+    "video/x-raw,width=$width,height=$height,framerate=$frame_rate" ! \
     fdsink
