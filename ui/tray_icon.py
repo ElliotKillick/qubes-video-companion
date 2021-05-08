@@ -12,8 +12,11 @@
 # pylint: disable=wrong-import-position
 
 import gi
+import os
+from os import _exit
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+__all__ = ('gi', 'Gtk', 'TrayIcon')
 
 # Prefer AyatanaAppIndicator because it's under active development
 # This is opposed to AppIndicator which is abandonware
@@ -30,13 +33,14 @@ import user_interface
 class TrayIcon(user_interface.UserInterface):
     """Tray icon user interface component"""
 
-    def __init__(self):
+    def __init__(self, icon_name):
         self.indicator = None
+        self.icon_name = icon_name
 
     def create(self):
         """Create tray icon"""
 
-        self.indicator = AppIndicator.Indicator.new(self.app, self.video_source_to_icon(),
+        self.indicator = AppIndicator.Indicator.new(self.app, self.icon_name,
                                                     AppIndicator.IndicatorCategory.
                                                     APPLICATION_STATUS)
         self.indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
@@ -54,6 +58,16 @@ class TrayIcon(user_interface.UserInterface):
 
         entry = Gtk.MenuItem.new_with_label(self.build_message())
         menu.append(entry)
+
+        def quit(unused_gtk):
+            # We do not care about cleaning up properly here; the OS will do
+            # that for us.  We *do* care about exiting ASAP.
+            _exit(0)
+        entry = Gtk.MenuItem.new_with_label('Stop video transmission')
+        entry.connect('activate', quit)
+        menu.connect('destroy', quit)
+        menu.append(entry)
+
         menu.show_all()
 
         return menu
@@ -72,7 +86,7 @@ class TrayIcon(user_interface.UserInterface):
 
         # Create an issue or make a pull request on the Ayatana version
         # of AppIndicator that's currently being maintained to fix this
-        Gtk.main()
+        pass
 
     @staticmethod
     def close():

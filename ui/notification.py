@@ -20,10 +20,10 @@ class Notification(user_interface.UserInterface):
     def __init__(self):
         Notify.init(self.app)
 
-    def show(self):
+    def show(self, icon):
         """Display notification to the user"""
 
-        Notify.Notification.new(self.app, self.build_message(), self.video_source_to_icon()).show()
+        Notify.Notification.new(self.app, self.build_message(), icon).show()
 
     @staticmethod
     def __destroy__():

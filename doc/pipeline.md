@@ -25,10 +25,10 @@
 
 
 ## BGRx -> I420 pixel format `videoconvert` in `qvc.ScreenShare`
-### `ximagesrc` only outputs in BGRx so it must be converted to I420 which is a supported input format for `v4l2sink` (on the `receiver.sh` side)
+### `ximagesrc` only outputs in BGRx so it must be converted to I420 which is a supported input format for `v4l2sink` (on the `receiver.py` side)
 - This video conversion is done on the side of the sending machine as to ensure the attack surface of the recipient stays as small as possible
 
-# Video Receiver (`receiver.sh`)
+# Video Receiver (`receiver.py`)
 
 ## capsfilter
 ### This is used to limit our attack surface to the given capabilities
