@@ -61,8 +61,6 @@ make DESTDIR=%{?buildroot} install-vm install-license
 %{_datadir}/qubes-video-companion/ui/service.py
 %{_datadir}/qubes-video-companion/ui/webcam.py
 %{_datadir}/qubes-video-companion/ui/screenshare.py
-%{_datadir}/qubes-video-companion/ui/user_interface.py
-%{_datadir}/qubes-video-companion/ui/notification.py
 %{_datadir}/qubes-video-companion/ui/tray_icon.py
 %{_datadir}/qubes-video-companion/scripts/set-webcam-format.sh
 %{_datadir}/qubes-video-companion/scripts/webcam.html

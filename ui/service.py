@@ -13,12 +13,12 @@ import gi
 import struct
 import sys
 import tray_icon
-import notification
 from typing import Optional, NoReturn
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gst', '1.0')
-from gi.repository import Gtk, Gst
+gi.require_version('Notify', '0.7')
+from gi.repository import Gtk, Gst, Notify
 
 class Service(object):
     _quitting: bool
@@ -31,19 +31,13 @@ class Service(object):
         self._quitting = False
         self._element = None
         icon = self.icon()
-        notification_ui = notification.Notification()
-        self._tray_icon = tray_icon_ui = tray_icon.TrayIcon(icon)
+        msg = self.video_source() + ': ' + target_domain + ' → ' + remote_domain
 
-        notification_ui.video_source = self.video_source()
-        notification_ui.requested_target = target_domain
-        notification_ui.remote_domain = remote_domain
-        notification_ui.show(icon)
+        app = "Qubes Video Companion"
+        Notify.init(app)
+        Notify.Notification.new(app, msg, icon).show()
 
-        tray_icon_ui.video_source = self.video_source()
-        tray_icon_ui.requested_target = target_domain
-        tray_icon_ui.remote_domain = remote_domain
-        tray_icon_ui.create()
-        tray_icon_ui.show()
+        self._tray_icon = tray_icon.TrayIcon(app, icon, msg)
 
     def video_source(self) -> str:
         """
