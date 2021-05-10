@@ -61,7 +61,7 @@ class Service(object):
         """
         Compute the parameters.  Return a (width, height, fps) tuple.
         """
-        raise NotImplementedError('parameters')
+        raise NotImplementedError("Pure virtual method called!")
 
     def quit(self) -> None:
         if self._quitting:
@@ -71,7 +71,6 @@ class Service(object):
         Gtk.main_quit()
 
     def msg_handler(self, bus: Gst.Bus, msg: Gst.Message) -> None:
-        elemnt = self._element
         if msg.type == Gst.MessageType.EOS:
             print('End of stream, exiting', file=sys.stderr)
             self.quit()
@@ -80,8 +79,8 @@ class Service(object):
             self.quit()
         elif msg.type == Gst.MessageType.CLOCK_LOST:
             print('Clock lost, resetting', file=sys.stderr)
-            element.set_state(Gst.State.PAUSED)
-            element.set_state(Gst.State.PLAYING)
+            self._element.set_state(Gst.State.PAUSED)
+            self._element.set_state(Gst.State.PLAYING)
 
     def start_transmission(self) -> None:
         """
@@ -115,6 +114,5 @@ class Service(object):
             print('Invalid remote qube name %r, failing' % remote_domain,
                   file=sys.stderr)
             sys.exit(1)
-        s = self(target_domain, remote_domain)
-        s.start_transmission()
+        self(target_domain, remote_domain).start_transmission()
         Gtk.main()
