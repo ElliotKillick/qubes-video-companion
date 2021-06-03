@@ -126,8 +126,11 @@ Here is a review of the security concerns webcams entail that Qubes users either
 - All Git release tags are signed by the project maintainer's PGP key
     - All commits by the maintainer are also always signed with their PGP key
     - Should signing ever cease, assume compromise
-    - Current maintainer: [Elliot Killick](https://github.com/elliotkillick) <a href="https://keybase.io/elliotkillick" target="_blank"><img src="https://img.shields.io/keybase/pgp/elliotkillick" alt="PGP key" /></a>
+    - Current maintainer 1: [Elliot Killick](https://github.com/elliotkillick) <a href="https://keybase.io/elliotkillick" target="_blank"><img src="https://img.shields.io/keybase/pgp/elliotkillick" alt="PGP key" /></a>
         - PGP key: 018F B9DE 6DFA 13FB 18FB 5552 F9B9 0D44 F83D D5F2
+    - Current maintainer 2: [Demi Obenour](https://github.com/DemiMarie) (Key not attached to Keybase account)
+        - PGP key: 8F3B D112 BD78 566D EABA 584F CFA7 7693 4CEF 6E3F
+        - [Signed proof](https://github.com/elliotkillick/qubes-video-companion/pull/17#issuecomment-837702694)
 
 ## Frequently Asked Questions (FAQ)
 
@@ -215,10 +218,10 @@ The model of a given webcam can be found by running `v4l2-ctl --list-devices` in
 
 ## End Goals
 
-- [x] Implement a solution for secure webcam utilization that sufficiently addresses the concerns brought up in this in-depth paper on webcam firmware security: [iSeeYou: Disabling the MacBook Webcam Indicator LED](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-brocker.pdf) ([Google Scholar](https://scholar.google.ca/scholar?q=iSeeYou%3A+Disabling+the+MacBook+Webcam+Indicator)) by Johns Hopkins University
+- Implement a solution for secure webcam utilization that sufficiently addresses the concerns brought up in this in-depth paper on webcam firmware security: [iSeeYou: Disabling the MacBook Webcam Indicator LED](https://www.usenix.org/system/files/conference/usenixsecurity14/sec14-paper-brocker.pdf) ([Google Scholar](https://scholar.google.ca/scholar?q=iSeeYou%3A+Disabling+the+MacBook+Webcam+Indicator)) by Johns Hopkins University
     - The end product should be capable of fully protecting at risk individuals such as those documented in the case studies of this [MIT paper](https://courses.csail.mit.edu/6.857/2014/files/03-jayaram-lui-nguyen-zakarian-preventing-covert-webcam-hacking) in practice (assuming they are Qubes users)
-- [x] Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a dodgy, insecure and computationally expensive (in CPU and RAM) experience:
+- Effectively solve two long-standing Qubes issues making using a webcam in Qubes OS a dodgy, insecure and computationally expensive (in CPU and RAM) experience:
     - Cannot use a USB camera: [#4035](https://github.com/QubesOS/qubes-issues/issues/4035)
     - Feature: Trusted stream for webcam input: [#2079](https://github.com/QubesOS/qubes-issues/issues/2079)
-- [x] Add secure screen sharing functionality between qubes
+- Add secure screen sharing functionality between qubes
     - Feature: Screen sharing between AppVMs: [#6426](https://github.com/QubesOS/qubes-issues/issues/6426)
