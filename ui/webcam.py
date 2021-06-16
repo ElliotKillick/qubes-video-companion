@@ -1,8 +1,22 @@
+#!/usr/bin/python3 --
+
+# Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
+# Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
+# Licensed under the MIT License. See LICENSE file for details.
+
+"""Webcam video source module"""
+
+import sys
 import re
-from service import Service
 import subprocess
+from service import Service
 
 class Webcam(Service):
+    """Webcam video source class"""
+
+    def __init__(self):
+        self.main(self)
+
     def video_source(self) -> str:
         return 'webcam'
 
@@ -11,9 +25,9 @@ class Webcam(Service):
 
     def parameters(self) -> tuple[int, int, int]:
         mjpeg_re = re.compile(rb"\t\[[0-9]+]: 'MJPG' \(Motion-JPEG, compressed\)\Z")
-        fmt_re   = re.compile(rb"\t\[[0-9]+]: ")
+        fmt_re = re.compile(rb"\t\[[0-9]+]: ")
         dimensions_re = re.compile(rb"\t\tSize: Discrete [0-9]+x[0-9]+\Z")
-        interval_re   = re.compile(rb"\t\t\tInterval: Discrete [0-9.]+s \([0-9]+\.0+ fps\)\Z")
+        interval_re = re.compile(rb"\t\t\tInterval: Discrete [0-9.]+s \([0-9]+\.0+ fps\)\Z")
         proc = subprocess.run(('v4l2-ctl', '--list-formats-ext'),
                               stdout=subprocess.PIPE,
                               check=True,
@@ -38,14 +52,14 @@ class Webcam(Service):
         return formats[0]
 
     def pipeline(self, width: int, height: int, fps: int) -> list[str]:
-        caps = ('width={},'
-                'height={},'
-                'framerate={}/1,'
+        caps = ('width={0},'
+                'height={1},'
+                'framerate={2}/1,'
                 'format=I420,'
                 'interlace-mode=progressive,'
                 'pixel-aspect-ratio=1/1,'
-                'max-framerate={}/1,'
-                'views=1'.format(width, height, fps, fps))
+                'max-framerate={2}/1,'
+                'views=1'.format(width, height, fps))
         return [
             'v4l2src',
             '!',
@@ -63,4 +77,4 @@ class Webcam(Service):
         ]
 
 if __name__ == '__main__':
-    Webcam.main()
+    webcam = Webcam()

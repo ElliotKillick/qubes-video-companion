@@ -1,33 +1,37 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 --
 
 # Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
 # Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
 # Licensed under the MIT License. See LICENSE file for details.
 
-"""Main service class for video sources"""
+"""Service module for video sources"""
 
 # GI requires version declaration before importing
 # pylint: disable=wrong-import-position
 
-import gi
-import struct
 import sys
-import tray_icon
+import struct
 from typing import Optional, NoReturn
 
+import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gst', '1.0')
 gi.require_version('Notify', '0.7')
 from gi.repository import Gtk, Gst, Notify
 
+import tray_icon
+
 class Service(object):
+    """Qubes Video Companion service base class"""
+
     _quitting: bool
     _element: Optional[Gst.Element]
     _tray_icon: tray_icon.TrayIcon
     __slots__: tuple[str, str, str] = ('_quitting', '_tray_icon', '_element')
 
-    """Qubes Video Companion service base class"""
-    def __init__(self, target_domain: str, remote_domain: str):
+    def start_service(self, target_domain: str, remote_domain: str) -> None:
+        """Start video service"""
+
         self._quitting = False
         self._element = None
         icon = self.icon()
@@ -41,13 +45,13 @@ class Service(object):
 
     def video_source(self) -> str:
         """
-        Returns the video source
+        Return the video source
         """
         raise NotImplementedError("Pure virtual method called!")
 
     def icon(self) -> str:
         """
-        Returns the icon name
+        Return the icon name
         """
         raise NotImplementedError("Pure virtual method called!")
 
@@ -64,13 +68,17 @@ class Service(object):
         raise NotImplementedError("Pure virtual method called!")
 
     def quit(self) -> None:
+        """Close the pipeline"""
+
         if self._quitting:
             return
         self._quitting = True
         self._element.set_state(Gst.State.NULL)
         Gtk.main_quit()
 
-    def msg_handler(self, bus: Gst.Bus, msg: Gst.Message) -> None:
+    def msg_handler(self, _bus: Gst.Bus, msg: Gst.Message) -> None:
+        """Handle pipeline messages"""
+
         if msg.type == Gst.MessageType.EOS:
             print('End of stream, exiting', file=sys.stderr)
             self.quit()
@@ -82,10 +90,22 @@ class Service(object):
             self._element.set_state(Gst.State.PAUSED)
             self._element.set_state(Gst.State.PLAYING)
 
+    def validate_qube_names(self, target_domain: str, remote_domain: str) -> NoReturn:
+        import re
+
+        qube_re = re.compile('^[A-Za-z][A-Za-z0-9_-]{1,30}$')
+        if not qube_re.match(target_domain):
+            print('Invalid target qube name %r, failing' % target_domain,
+                  file=sys.stderr)
+            sys.exit(1)
+        if not qube_re.match(remote_domain):
+            print('Invalid remote qube name %r, failing' % remote_domain,
+                  file=sys.stderr)
+            sys.exit(1)
+
     def start_transmission(self) -> None:
-        """
-        Start video transmission
-        """
+        """Start video transmission"""
+
         width, height, fps = self.parameters()
         sys.stdout.buffer.write(struct.pack('=HHH', width, height, fps))
         sys.stdout.buffer.flush()
@@ -97,22 +117,18 @@ class Service(object):
         element.set_state(Gst.State.PLAYING)
 
     @classmethod
-    def main(self) -> NoReturn:
+    def main(cls, self) -> NoReturn:
         """Program entry point"""
 
-        import argparse, re, qubesdb, os
+        import argparse, qubesdb, os
         argparse.ArgumentParser().parse_args()
 
-        qube_re = re.compile('^[A-Za-z][A-Za-z0-9_-]{1,30}$')
         target_domain = qubesdb.QubesDB().read('/name').decode('ascii', 'strict')
         remote_domain = os.getenv('QREXEC_REMOTE_DOMAIN')
-        if not qube_re.match(target_domain):
-            print('Invalid target qube name %r, failing' % target_domain,
-                  file=sys.stderr)
-            sys.exit(1)
-        if not qube_re.match(remote_domain):
-            print('Invalid remote qube name %r, failing' % remote_domain,
-                  file=sys.stderr)
-            sys.exit(1)
-        self(target_domain, remote_domain).start_transmission()
+
+        self.validate_qube_names(target_domain, remote_domain)
+
+        self.start_service(target_domain, remote_domain)
+        self.start_transmission()
+
         Gtk.main()

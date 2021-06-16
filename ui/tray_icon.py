@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 --
 
 # Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
 # Licensed under the MIT License. See LICENSE file for details.
@@ -11,11 +11,13 @@
 # GI requires version declaration before importing
 # pylint: disable=wrong-import-position
 
-import gi
-import os
 from os import _exit
+from typing import NoReturn
+
+import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+
 __all__ = ('gi', 'Gtk', 'TrayIcon')
 
 # Prefer AyatanaAppIndicator because it's under active development
@@ -40,7 +42,8 @@ class TrayIcon(object):
         self.indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
         self.indicator.set_menu(self.menu(msg, app))
 
-    def menu(self, msg, app):
+    @classmethod
+    def menu(cls, msg, app) -> object:
         """Create tray icon menu"""
 
         # pylint: disable=line-too-long
@@ -64,13 +67,13 @@ class TrayIcon(object):
         entry = Gtk.MenuItem.new_with_label(msg)
         menu.append(entry)
 
-        def quit(unused_gtk):
+        def die(unused_gtk) -> NoReturn:
             # We do not care about cleaning up properly here; the OS will do
             # that for us.  We *do* care about exiting ASAP.
             _exit(0)
         entry = Gtk.MenuItem.new_with_label('Stop video transmission')
-        entry.connect('activate', quit)
-        menu.connect('destroy', quit)
+        entry.connect('activate', die)
+        menu.connect('destroy', die)
         menu.append(entry)
 
         menu.show_all()

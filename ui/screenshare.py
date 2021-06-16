@@ -1,13 +1,25 @@
+#!/usr/bin/python3 --
+
 # Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
 # Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
 # Licensed under the MIT License. See LICENSE file for details.
 
+"""Screen sharing video source module"""
+
+# GI requires version declaration before importing
+# pylint: disable=wrong-import-position
+
 import gi
-from service import Service
 gi.require_version('Gdk', '3.0')
 from gi.repository import Gdk
+from service import Service
 
 class ScreenShare(Service):
+    """Screen sharing video souce class"""
+
+    def __init__(self):
+        self.main(self)
+
     def video_source(self) -> str:
         return 'screenshare'
 
@@ -20,13 +32,13 @@ class ScreenShare(Service):
         return (scale * geometry.width, scale * geometry.height, 30)
 
     def pipeline(self, width: int, height: int, fps: int) -> list[str]:
-        caps = ('width={},'
-                'height={},'
-                'framerate={}/1,'
+        caps = ('width={0},'
+                'height={1},'
+                'framerate={2}/1,'
                 'interlace-mode=progressive,'
                 'pixel-aspect-ratio=1/1,'
-                'max-framerate={}/1,'
-                'views=1'.format(width, height, fps, fps))
+                'max-framerate={2}/1,'
+                'views=1'.format(width, height, fps))
         return [
             'ximagesrc',
             'use-damage=false',
@@ -45,4 +57,4 @@ class ScreenShare(Service):
         ]
 
 if __name__ == '__main__':
-    ScreenShare.main()
+    screenshare = ScreenShare()
