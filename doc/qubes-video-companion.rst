@@ -26,3 +26,4 @@ video_source
 AUTHORS
 =======
 | Elliot Killick <elliotkillick at zohomail dot eu>
+| Demi Marie Obenour <demi at invisiblethingslab dot com>
