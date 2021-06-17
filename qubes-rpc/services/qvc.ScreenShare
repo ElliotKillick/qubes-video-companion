@@ -3,4 +3,5 @@
 # Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
 # Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
 # Licensed under the MIT License. See LICENSE file for details.
+export DISPLAY=:0
 exec python3 -- /usr/share/qubes-video-companion/ui/screenshare.py

@@ -23,7 +23,7 @@ class Webcam(Service):
     def icon(self) -> str:
         return 'camera-web'
 
-    def parameters(self) -> tuple[int, int, int]:
+    def parameters(self):
         mjpeg_re = re.compile(rb"\t\[[0-9]+]: 'MJPG' \(Motion-JPEG, compressed\)\Z")
         fmt_re = re.compile(rb"\t\[[0-9]+]: ")
         dimensions_re = re.compile(rb"\t\tSize: Discrete [0-9]+x[0-9]+\Z")
@@ -51,7 +51,7 @@ class Webcam(Service):
         formats.sort(key=lambda x: x[0] * x[1] * x[2], reverse=True)
         return formats[0]
 
-    def pipeline(self, width: int, height: int, fps: int) -> list[str]:
+    def pipeline(self, width: int, height: int, fps: int):
         caps = ('width={0},'
                 'height={1},'
                 'framerate={2}/1,'
@@ -66,7 +66,7 @@ class Webcam(Service):
             'queue',
             '!',
             'capsfilter',
-            'caps=image/jpeg,colorimetry=2:4:7:1,chroma-site=none,' + caps,
+            'caps=image/jpeg,colorimetry=(string)2:4:7:1,chroma-site=none,' + caps,
             '!',
             'jpegdec',
             '!',

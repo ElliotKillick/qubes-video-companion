@@ -24,13 +24,12 @@ import tray_icon
 class Service(object):
     """Qubes Video Companion service base class"""
 
-    _quitting: bool
-    _element: Optional[Gst.Element]
-    _tray_icon: tray_icon.TrayIcon
-    __slots__: tuple[str, str, str] = ('_quitting', '_tray_icon', '_element')
+    _quitting = None # type: bool
+    _element = None # type: Optional[Gst.Element]
+    _tray_icon = None # type: tray_icon.TrayIcon
 
     def start_service(self, target_domain: str, remote_domain: str) -> None:
-        """Start video service"""
+        """Start video sender service"""
 
         self._quitting = False
         self._element = None
@@ -55,13 +54,13 @@ class Service(object):
         """
         raise NotImplementedError("Pure virtual method called!")
 
-    def pipeline(self, width: int, height: int, fps: int) -> list[str]:
+    def pipeline(self, width: int, height: int, fps: int):
         """
         Return a set-up GStreamer pipeline
         """
         raise NotImplementedError("Pure virtual method called!")
 
-    def parameters(self) -> list[int, int, int]:
+    def parameters(self):
         """
         Compute the parameters.  Return a (width, height, fps) tuple.
         """
@@ -123,7 +122,11 @@ class Service(object):
         import argparse, qubesdb, os
         argparse.ArgumentParser().parse_args()
 
-        target_domain = qubesdb.QubesDB().read('/name').decode('ascii', 'strict')
+        try:
+            target_domain = qubesdb.QubesDB().read('/name').decode('ascii', 'strict')
+        except:
+            # dom0 doesn't have a /name value in its QubesDB
+            target_domain = 'dom0'
         remote_domain = os.getenv('QREXEC_REMOTE_DOMAIN')
 
         self.validate_qube_names(target_domain, remote_domain)

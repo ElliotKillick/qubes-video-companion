@@ -26,12 +26,12 @@ class ScreenShare(Service):
     def icon(self) -> str:
         return 'video-display'
 
-    def parameters(self) -> tuple[int, int, int]:
+    def parameters(self):
         monitor = Gdk.Display().get_default().get_monitor(0)
         scale, geometry = monitor.get_scale_factor(), monitor.get_geometry()
         return (scale * geometry.width, scale * geometry.height, 30)
 
-    def pipeline(self, width: int, height: int, fps: int) -> list[str]:
+    def pipeline(self, width: int, height: int, fps: int):
         caps = ('width={0},'
                 'height={1},'
                 'framerate={2}/1,'
