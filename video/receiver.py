@@ -52,7 +52,6 @@ def read_video_parameters() -> (int, int, int):
         raise AssertionError('bug')
 
     untrusted_input = os.read(0, input_size)
-    print(untrusted_input, file=sys.stderr)
     if len(untrusted_input) != input_size:
         raise RuntimeError('wrong number of bytes read')
     untrusted_width, untrusted_height, untrusted_fps = s.unpack(untrusted_input)
