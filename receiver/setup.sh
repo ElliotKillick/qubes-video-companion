@@ -9,7 +9,7 @@ set -E # Enable function inheritance of traps
 trap exit ERR
 
 # shellcheck source=common.sh
-source /usr/share/qubes-video-companion/video/common.sh
+source /usr/share/qubes-video-companion/receiver/common.sh
 
 if ! test_v4l2loopback; then
     echo "The v4l2loopback kernel module is not installed. Please run the following script to install it: /usr/share/qubes-video-companion/scripts/v4l2loopback/install.sh"

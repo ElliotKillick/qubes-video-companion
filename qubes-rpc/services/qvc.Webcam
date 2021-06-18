@@ -4,4 +4,4 @@
 # Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
 # Licensed under the MIT License. See LICENSE file for details.
 export DISPLAY=:0
-exec python3 -- /usr/share/qubes-video-companion/ui/webcam.py
+exec python3 -- /usr/share/qubes-video-companion/sender/webcam.py
