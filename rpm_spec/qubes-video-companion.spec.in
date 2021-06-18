@@ -32,7 +32,7 @@ superb performance by maintaining a small footprint of the available
 computational resources and low latency even at Full HD and greater
 resolutions at 30 or more frames per second.
 
-This package contains all components of Qubes Video companion excluding the
+This package contains all components of Qubes Video Companion excluding the
 Qubes RPC policies which dom0 enforces.
 
 %prep
