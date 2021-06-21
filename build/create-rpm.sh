@@ -15,7 +15,7 @@ local_dir="$(dirname "$(readlink -f "$0")")"
 cd "$local_dir" || exit # Change into directory of this script
 
 # Author PGP key initial source
-#gpg --keyserver keyring.debian.org --recv-keys 7405E745574809734800156DB65019C47F7A36F8
+#gpg --keyserver keys.openpgp.org --recv-keys 018FB9DE6DFA13FB18FB5552F9B90D44F83DD5F2
 
 gpg --import author.asc
 
