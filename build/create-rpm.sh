@@ -44,7 +44,7 @@ rpmdev-setuptree
 cp "qubes-video-companion-$latest_version.tar.gz" "$HOME/rpmbuild/SOURCES"
 cp qubes-video-companion/rpm_spec/* "$HOME/rpmbuild/SPECS"
 
-if [ package_type != "dom0" ]; then
+if [ "$package_type" != "dom0" ]; then
     cp qubes-video-companion/rpm_spec/qubes-video-companion.spec.in "$HOME/rpmbuild/SPECS"
     rpmbuild -ba ~/rpmbuild/SPECS/qubes-video-companion.spec.in
     echo "Run the following command to install the package: sudo dnf install ~/rpmbuild/RPMS/noarch/qubes-video-companion-$latest_version-1.fcXX.noarch.rpm" >&2
