@@ -13,10 +13,8 @@
 </p>
 
 <div align="center">
+    <img src="https://img.shields.io/github/v/release/elliotkillick/qubes-video-companion?style=flat-square" alt="Version">
     <img src="https://img.shields.io/gitlab/pipeline/elliotkillick/qubes-video-companion/master?style=flat-square" alt="GitLab pipeline" />
-    <a href="LICENSE">
-        <img src="https://img.shields.io/github/license/elliotkillick/qubes-video-companion?style=flat-square" alt="License" />
-    </a>
     <a href="https://www.qubes-os.org">
         <img src="https://img.shields.io/badge/Made%20for-Qubes%20OS-63a0ff?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACE0lEQVR4Ae2Vg5JdQRiE56HyQrGTQmzbTgqxbdu2bWvN09vLf3E1OlfTVV/pYvobqpCQHMyqMziy%2bizKCVr4rfIlLPuXIBGrzuKjytWw3Dspm5J6fvduLm2XG42lCDSp4m8PZbP4XpaoJLDkTzb2%2bU8Cl3BbvYljn7%2bQQb1Qx5W96mO7XOCf1xLERIXL7VJmM6NGB1z4YVsehpQk%2bK9qAhOUSZadMhqsltvtbIoz9JDfiQgyYQ1ZReYe1ZSYsBt3Ju8F5h0BVpzOaLCIAz3VWNkvmQgsPgGM2Q303QD0XIc7OgJoZep%2bYOExgDObbKDvhhfD5kTnaw1ZfgqYzHEHbAJ6rGP5FjQFhIlkxgFgyQnXN4XccCyOlZykmYeBoVulNLEVECbtAeZwAJ6Pn8px5h9D1fAdQO/1MuuOBQTlKVI8TwV6FoNAEAgCQSAIBIEgEATINw/lr8YjIJQ5LH%2bdIF4B4bhF8YsEGXJbR%2bC0pkREtqsM02sdjmsU15t9kcA9Ak2q0xTfzjKRFNObff8Swt8E26WawL68vsRlAhNG70RN7/Wo0y4t/FDWEZFbBgKggEnxSPkIS%2b0hUQwCF5WfyC3lVUD47VvkmlcB4aVPifWkzpuAUOd7NQ5mKFBHHhi%2bB79JN98i55MJ8CG70ult%2bOfzSrV%2bP0QgwWEUiZOkJkXxCrJT5XpY8iGRR49S5KrK8YQ0AG5m/ZMNiwL6AAAAAElFTkSuQmCC&style=flat-square" alt="Made for Qubes OS" />
     </a>
