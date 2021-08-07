@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 --
 
 # Copyright (C) 2021 Elliot Killick <elliotkillick@zohomail.eu>
 # Licensed under the MIT License. See LICENSE file for details.
@@ -11,9 +11,14 @@
 # GI requires version declaration before importing
 # pylint: disable=wrong-import-position
 
+from os import _exit
+from typing import NoReturn
+
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+
+__all__ = ('gi', 'Gtk', 'TrayIcon')
 
 # Prefer AyatanaAppIndicator because it's under active development
 # This is opposed to AppIndicator which is abandonware
@@ -25,42 +30,21 @@ except (ImportError, ValueError):
     gi.require_version('AppIndicator3', '0.1')
     from gi.repository import AppIndicator3 as AppIndicator
 
-import user_interface
-
-class TrayIcon(user_interface.UserInterface):
+class TrayIcon(object):
     """Tray icon user interface component"""
 
-    def __init__(self):
-        self.indicator = None
-
-    def create(self):
+    def __init__(self, app, icon_name, msg):
         """Create tray icon"""
-
-        self.indicator = AppIndicator.Indicator.new(self.app, self.video_source_to_icon(),
+        self.icon_name = icon_name
+        self.indicator = AppIndicator.Indicator.new(app, self.icon_name,
                                                     AppIndicator.IndicatorCategory.
                                                     APPLICATION_STATUS)
         self.indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
-        self.indicator.set_menu(self.menu())
+        self.indicator.set_menu(self.menu(msg, app))
 
-    def menu(self):
+    @classmethod
+    def menu(cls, msg, app) -> object:
         """Create tray icon menu"""
-
-        menu = Gtk.Menu()
-
-        header = Gtk.MenuItem.new_with_label(self.app)
-        label = Gtk.MenuItem.get_child(header)
-        label.set_markup('<b>' + label.get_text() + '</b>')
-        menu.append(header)
-
-        entry = Gtk.MenuItem.new_with_label(self.build_message())
-        menu.append(entry)
-        menu.show_all()
-
-        return menu
-
-    @staticmethod
-    def show():
-        """Show tray icon"""
 
         # pylint: disable=line-too-long
         # FIXME: The following warning appears: Gdk-CRITICAL **: gdk_window_thaw_toplevel_updates: assertion 'window->update_and_descendants_freeze_count > 0' failed
@@ -72,10 +56,26 @@ class TrayIcon(user_interface.UserInterface):
 
         # Create an issue or make a pull request on the Ayatana version
         # of AppIndicator that's currently being maintained to fix this
-        Gtk.main()
 
-    @staticmethod
-    def close():
-        """Remove tray icon"""
+        menu = Gtk.Menu()
 
-        Gtk.main_quit()
+        header = Gtk.MenuItem.new_with_label(app)
+        label = Gtk.MenuItem.get_child(header)
+        label.set_markup('<b>' + label.get_text() + '</b>')
+        menu.append(header)
+
+        entry = Gtk.MenuItem.new_with_label(msg)
+        menu.append(entry)
+
+        def die(unused_gtk) -> NoReturn:
+            # We do not care about cleaning up properly here; the OS will do
+            # that for us.  We *do* care about exiting ASAP.
+            _exit(0)
+        entry = Gtk.MenuItem.new_with_label('Stop video transmission')
+        entry.connect('activate', die)
+        menu.connect('destroy', die)
+        menu.append(entry)
+
+        menu.show_all()
+
+        return menu

@@ -14,6 +14,7 @@ BuildArch:      noarch
 
 BuildRequires:  pandoc
 Requires:       gstreamer1-plugins-good
+Requires:       python3
 
 %description
 Qubes Video Companion is a tool for securely streaming webcams and sharing
@@ -26,12 +27,12 @@ exposed. This design makes the side of the video sending virtual machine 100%
 immune to attack and only leaves a very small attack surface on the side of
 the video receiving virtual machine.
 
-The project emphasizes correctness and security all the while also sporting
+The project emphasizes correctness and security all thae while also sporting
 superb performance by maintaining a small footprint of the available
 computational resources and low latency even at Full HD and greater
 resolutions at 30 or more frames per second.
 
-This package contains all components of Qubes Video companion excluding the
+This package contains all components of Qubes Video Companion excluding the
 Qubes RPC policies which dom0 enforces.
 
 %prep
@@ -53,16 +54,16 @@ make DESTDIR=%{?buildroot} install-vm install-license
 %{_bindir}/qubes-video-companion
 %{_sysconfdir}/qubes-rpc/qvc.Webcam
 %{_sysconfdir}/qubes-rpc/qvc.ScreenShare
-%{_datadir}/qubes-video-companion/video/setup.sh
-%{_datadir}/qubes-video-companion/video/receiver.sh
-%{_datadir}/qubes-video-companion/video/destroy.sh
-%{_datadir}/qubes-video-companion/video/common.sh
-%{_datadir}/qubes-video-companion/ui/ui.sh
-%{_datadir}/qubes-video-companion/ui/main.py
-%{_datadir}/qubes-video-companion/ui/user_interface.py
-%{_datadir}/qubes-video-companion/ui/notification.py
-%{_datadir}/qubes-video-companion/ui/tray_icon.py
-%{_datadir}/qubes-video-companion/scripts/set-webcam-format.sh
+%{_sysconfdir}/qubes/rpc-config/qvc.Webcam
+%{_sysconfdir}/qubes/rpc-config/qvc.ScreenShare
+%{_datadir}/qubes-video-companion/receiver/setup.sh
+%{_datadir}/qubes-video-companion/receiver/receiver.py
+%{_datadir}/qubes-video-companion/receiver/destroy.sh
+%{_datadir}/qubes-video-companion/receiver/common.sh
+%{_datadir}/qubes-video-companion/sender/service.py
+%{_datadir}/qubes-video-companion/sender/webcam.py
+%{_datadir}/qubes-video-companion/sender/screenshare.py
+%{_datadir}/qubes-video-companion/sender/tray_icon.py
 %{_datadir}/qubes-video-companion/scripts/webcam.html
 %{_datadir}/qubes-video-companion/scripts/v4l2loopback/install.sh
 %{_datadir}/qubes-video-companion/scripts/v4l2loopback/author.asc

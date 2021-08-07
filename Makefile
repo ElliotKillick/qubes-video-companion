@@ -5,7 +5,8 @@ PKGNAME = qubes-video-companion
 
 BINDIR ?= /usr/bin
 DATADIR ?= /usr/share
-QREXECDIR ?= /etc/qubes-rpc
+SYSCONFDIR ?= /etc
+QREXECDIR ?= $(SYSCONFDIR)/qubes-rpc
 
 INSTALL_DIR = install -d
 INSTALL_PROGRAM = install -D
@@ -25,9 +26,13 @@ build:
 
 install-vm: install-both
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
-	$(INSTALL_PROGRAM) video/$(PKGNAME) $(DESTDIR)$(BINDIR)
-	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/video
-	$(INSTALL_PROGRAM) video/setup.sh video/receiver.sh video/destroy.sh video/common.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/video
+	$(INSTALL_PROGRAM) receiver/$(PKGNAME) $(DESTDIR)$(BINDIR)
+	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/receiver
+	$(INSTALL_PROGRAM) receiver/setup.sh receiver/receiver.py receiver/destroy.sh receiver/common.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/receiver
+	$(INSTALL_DIR) $(DESTDIR)$(SYSCONFDIR)/qubes/rpc-config
+	echo 'wait-for-session=1' > $(DESTDIR)$(SYSCONFDIR)/qubes/rpc-config/qvc.Webcam
+	echo 'wait-for-session=1' > $(DESTDIR)$(SYSCONFDIR)/qubes/rpc-config/qvc.ScreenShare
+	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_DATA) scripts/webcam.html $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
 	$(INSTALL_PROGRAM) scripts/v4l2loopback/install.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
@@ -39,10 +44,8 @@ install-dom0: install-both install-policy
 install-both:
 	$(INSTALL_DIR) $(DESTDIR)$(QREXECDIR)
 	$(INSTALL_PROGRAM) qubes-rpc/services/qvc.Webcam qubes-rpc/services/qvc.ScreenShare $(DESTDIR)$(QREXECDIR)
-	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/ui
-	$(INSTALL_PROGRAM) ui/*.py ui/*.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/ui
-	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
-	$(INSTALL_PROGRAM) scripts/set-webcam-format.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
+	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/sender
+	$(INSTALL_PROGRAM) sender/*.py $(DESTDIR)$(DATADIR)/$(PKGNAME)/sender
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)
 	$(INSTALL_DATA) README.md doc/pipeline.md $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/doc/$(PKGNAME)/visualizations

@@ -57,12 +57,12 @@ make DESTDIR=%{?buildroot} install-dom0 install-license
 %{_sysconfdir}/qubes-rpc/qvc.ScreenShare
 %{_sysconfdir}/qubes-rpc/policy/qvc.Webcam
 %{_sysconfdir}/qubes-rpc/policy/qvc.ScreenShare
-%{_datadir}/qubes-video-companion/ui/ui.sh
-%{_datadir}/qubes-video-companion/ui/main.py
-%{_datadir}/qubes-video-companion/ui/user_interface.py
-%{_datadir}/qubes-video-companion/ui/notification.py
-%{_datadir}/qubes-video-companion/ui/tray_icon.py
-%{_datadir}/qubes-video-companion/scripts/set-webcam-format.sh
+%{_sysconfdir}/qubes/rpc-config/qvc.Webcam
+%{_sysconfdir}/qubes/rpc-config/qvc.ScreenShare
+%{_datadir}/qubes-video-companion/sender/service.py
+%{_datadir}/qubes-video-companion/sender/webcam.py
+%{_datadir}/qubes-video-companion/sender/screenshare.py
+%{_datadir}/qubes-video-companion/sender/tray_icon.py
 
 %changelog
 * Wed Feb 17 2021 Elliot Killick <elliotkillick@zohomail.eu> 1.0.0-1

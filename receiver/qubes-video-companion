@@ -30,7 +30,7 @@ esac
 exit_clean() {
     exit_code="$?"
 
-    /usr/share/qubes-video-companion/video/destroy.sh
+    /usr/share/qubes-video-companion/receiver/destroy.sh
     sudo rm -f "$qvc_lock_file"
 
     if [ "$video_source" == "webcam" ] && [ "$exit_code" == "141" ]; then
@@ -50,7 +50,7 @@ else
     exit 1
 fi
 
-/usr/share/qubes-video-companion/video/setup.sh
+/usr/share/qubes-video-companion/receiver/setup.sh
 # Disabling buffering should lower latency and it doesn't seem to impact performance
 # Filter standard error escape characters for safe printing to the terminal from the video sender
-qrexec-client-vm dom0 "$qvc_service" /usr/share/qubes-video-companion/video/receiver.sh --buffer-size=0 --filter-escape-chars-stderr
+qrexec-client-vm --buffer-size=0 --filter-escape-chars-stderr -- dom0 "$qvc_service" /usr/share/qubes-video-companion/receiver/receiver.py
