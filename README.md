@@ -1,19 +1,24 @@
-# Qubes Video Companion
-
-<br>
-
 <div align="center">
     <a href="https://github.com/elliotkillick/qubes-video-companion">
-        <img width="150" src="icons/logo.png" alt="Logo" />
+        <img width="160" src="icons/logo.png" alt="Logo" />
     </a>
 </div>
 
+<h3 align="center">
+    Qubes Video Companion
+</h3>
+
+<p align="center">
+    Securely stream webcams and share screens across virtual machines
+</p>
+
 <div align="center">
-    <img src="https://img.shields.io/gitlab/pipeline/elliotkillick/qubes-video-companion/master" alt="GitLab pipeline" />
-    <img src="https://img.shields.io/github/v/release/elliotkillick/qubes-video-companion" alt="GitLab pipeline" />
-    <img src="https://img.shields.io/github/commits-since/elliotkillick/qubes-video-companion/latest" alt="Commits since latest release" />
+    <img src="https://img.shields.io/gitlab/pipeline/elliotkillick/qubes-video-companion/master?style=flat-square" alt="GitLab pipeline" />
     <a href="LICENSE">
-        <img src="https://img.shields.io/github/license/elliotkillick/qubes-video-companion" alt="License" />
+        <img src="https://img.shields.io/github/license/elliotkillick/qubes-video-companion?style=flat-square" alt="License" />
+    </a>
+    <a href="https://www.qubes-os.org">
+        <img src="https://img.shields.io/badge/Made%20for-Qubes%20OS-63a0ff?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACE0lEQVR4Ae2Vg5JdQRiE56HyQrGTQmzbTgqxbdu2bWvN09vLf3E1OlfTVV/pYvobqpCQHMyqMziy%2bizKCVr4rfIlLPuXIBGrzuKjytWw3Dspm5J6fvduLm2XG42lCDSp4m8PZbP4XpaoJLDkTzb2%2bU8Cl3BbvYljn7%2bQQb1Qx5W96mO7XOCf1xLERIXL7VJmM6NGB1z4YVsehpQk%2bK9qAhOUSZadMhqsltvtbIoz9JDfiQgyYQ1ZReYe1ZSYsBt3Ju8F5h0BVpzOaLCIAz3VWNkvmQgsPgGM2Q303QD0XIc7OgJoZep%2bYOExgDObbKDvhhfD5kTnaw1ZfgqYzHEHbAJ6rGP5FjQFhIlkxgFgyQnXN4XccCyOlZykmYeBoVulNLEVECbtAeZwAJ6Pn8px5h9D1fAdQO/1MuuOBQTlKVI8TwV6FoNAEAgCQSAIBIEgEATINw/lr8YjIJQ5LH%2bdIF4B4bhF8YsEGXJbR%2bC0pkREtqsM02sdjmsU15t9kcA9Ak2q0xTfzjKRFNObff8Swt8E26WawL68vsRlAhNG70RN7/Wo0y4t/FDWEZFbBgKggEnxSPkIS%2b0hUQwCF5WfyC3lVUD47VvkmlcB4aVPifWkzpuAUOd7NQ5mKFBHHhi%2bB79JN98i55MJ8CG70ult%2bOfzSrV%2bP0QgwWEUiZOkJkXxCrJT5XpY8iGRR49S5KrK8YQ0AG5m/ZMNiwL6AAAAAElFTkSuQmCC&style=flat-square" alt="Made for Qubes OS" />
     </a>
 </div>
 
@@ -27,26 +32,22 @@ The project emphasizes correctness and security all the while also sporting supe
 
 ## Installation
 
-**WIP: Currently still need to apply or in the process of becoming part of the Qubes Contribution Repo**
+**WIP: Currently in the process of being streamlined as part of core Qubes OS**
 
-**For testers (thank you for your help!), please `git clone` this repo, verify the authenticity of the latest version tag with `git verify-tag` and if the signature is good then `git checkout` that tag. Lastly, proceed to build and install the Fedora/Debian package(s) yourself. Alternatively, `make install-<vm/dom0>` can be done.**
+**For testers (thank you for your help!), please use the build scripts in the `build` directory of this repo to build the required Qubes Video Companion package(s). Install them in `sys-usb` and any other AppVM for receiving the video. Also, ensure that at minimum in the Qubes RPC policies in `qubes-rpc/policies` are installed into Dom0 at `/etc/qubes-rpc/policy`.**
 
-Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply add the Qubes Contribution Repo to the list of available repositories and install the `qubes-video-companion` package!
+Qubes Video Companion is available for installation on Qubes OS in packaged form for both Fedora (.rpm) and Debian (.deb). To get it, simply install the `qubes-video-companion` package as shown below!
 
 ### Run the following commands in Dom0 (AdminVM)
-1. `sudo qubes-dom0-update qubes-repo-contrib`
-2. `sudo qubes-dom0-update --clean qubes-video-companion`
+`sudo qubes-dom0-update qubes-video-companion`
 
 ### Run the following commands in a TemplateVM or AppVM
 
 #### Fedora
-1. `sudo dnf install qubes-repo-contrib`
-2. `sudo dnf install qubes-video-companion`
+`sudo dnf install qubes-video-companion`
 
 #### Debian
-1. `sudo apt update`
-2. `sudo apt install qubes-repo-contrib`
-3. `sudo apt install qubes-video-companion`
+`sudo apt update && sudo apt install qubes-video-companion`
 
 ## Usage
 
@@ -82,8 +83,9 @@ Here is a review of the security concerns webcams entail that Qubes users either
 - One-way only communication from the video sending machine to the video receiving machine thus guaranteeing the security of the sender
     - This is crucial because the sender, typically `sys-usb`, has a lot of exposed hypervisor and hardware attack surface
         - This is due to having all USB devices in the form of the entire [USB controller PCI device](https://www.qubes-os.org/doc/device-handling-security/#pci-security) passed through to it
-        - Additionally, for PCI passthrough `sys-usb` must be an HVM (as opposed to a PVH) domain which is far more complex and has proven to be the source of many more bugs
+        - Additionally, for PCI passthrough `sys-usb` must be an HVM (as opposed to a PVH) domain which is far more complex and has proven to be the source of many more vulnerabilities in the Xen hypervisor
         - These vulnerabilities are very real and common, case in point:
+            - XSA-373 of [QSB #069-2021](https://github.com/QubesOS/qubes-secpack/blob/master/QSBs/qsb-069-2021.txt): "`A malicious guest may be able to elevate its privileges to that of the host, cause host or guest Denial of Service (DoS), or cause information leaks.`"
             - XSA-325 of [QSB #063-2020](https://github.com/QubesOS/qubes-secpack/blob/master/QSBs/qsb-063-2020.txt): HVM domains such as `sys-usb` may cause a use-after-free leading to a crash for which privilege escalation cannot be ruled out
             - XSA-337 of [QSB #059-2020](https://github.com/QubesOS/qubes-secpack/blob/master/QSBs/qsb-059-2020.txt): "`A malicious HVM with a PCI device (such as sys-net or sys-usb in the default Qubes OS configuration) can potentially compromise the whole system.`"
             - XSA-321 of [QSB #058-2020](https://github.com/QubesOS/qubes-secpack/blob/master/QSBs/qsb-058-2020.txt): A vulnerability with the same level of impact as the previous one this time only affecting Intel processors
@@ -126,9 +128,9 @@ Here is a review of the security concerns webcams entail that Qubes users either
 - All Git release tags are signed by the project maintainer's PGP key
     - All commits by the maintainer are also always signed with their PGP key
     - Should signing ever cease, assume compromise
-    - Current maintainer 1: [Elliot Killick](https://github.com/elliotkillick) <a href="https://keybase.io/elliotkillick" target="_blank"><img src="https://img.shields.io/keybase/pgp/elliotkillick" alt="PGP key" /></a>
+    - Current maintainer 1: [Elliot Killick](https://github.com/elliotkillick) <a href="https://keybase.io/elliotkillick" target="_blank"><img src="https://img.shields.io/keybase/pgp/elliotkillick?style=flat-square" alt="PGP key" /></a>
         - PGP key: 018F B9DE 6DFA 13FB 18FB 5552 F9B9 0D44 F83D D5F2
-    - Current maintainer 2: [Demi Obenour](https://github.com/DemiMarie) (Key not attached to Keybase account)
+    - Current maintainer 2: [Demi Marie Obenour](https://github.com/DemiMarie) (Key not attached to Keybase account)
         - PGP key: 8F3B D112 BD78 566D EABA 584F CFA7 7693 4CEF 6E3F
         - [Signed proof](https://github.com/elliotkillick/qubes-video-companion/pull/17#issuecomment-837702694)
 
@@ -141,32 +143,6 @@ In Qubes OS, audio is handled securely through the use of simple PulseAudio sink
 The microphone of a webcam can be utilized by configuring it as the recording device for the desired qube in the `Recording` tab of the `Volume Control` application in `dom0`. Then, simply connect the microphone to the desired qube in the `Qubes Devices` system tray app at the bottom-right of the screen.
 
 Audio is out of scope for this project in particular.
-
-### Why is the webcam resolution or frame rate lower than what my webcam is capable of?
-
-- The default parameters of the Video4Linux2 device can sometimes be undesirable
-- Set these parameters manually on the virtual machine with the webcam device attached using [set-webcam-format.sh](scripts/set-webcam-format.sh)
-    - If the default parameters in that script don't work, use the `qv4l2` (packaged as `qv4l2`) tool to find the best settings for any given webcam
-    - This script is installed in: `/usr/share/qubes-video-companion/scripts`
-- Currently in the process of finding a more elegant solution for this issue: [#4](https://github.com/elliotkillick/qubes-video-companion/issues/4)
-
-### Why can I perceive some latency in the video playback?
-
-This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
-
-It's important to remember that for security reasons, qubes do not have access to the GPU and so, therefore, must rely entirely on the CPU even for graphical workloads.
-
-To fix the latency, do one or more of the following:
-
-1. Remove or shrink the size of any windows playing back the video stream being shared to the video receiving VM
-    - Just like in video editing, playing back raw, unencoded video in realtime is a very computationally expensive task that takes much more processing power than recording and in this case even sharing the video across VMs combined
-    - For example, in OBS, right-click the video preview and uncheck `Enable preview` when recording
-2. Pause any videos from playing (e.g. YouTube videos) in any of the VMs
-3. Assign more vCPUs to the video receiving VM
-    - The video rendering workload lends decently to multithreading so the more vCPUs the better
-    - The vCPU count can be changed in the settings for that qube
-4. Reduce the resolution and/or frame rate the webcam is recording at to a supported lower quality setting
-    - Refer to [set-webcam-format.sh](scripts/set-webcam-format.sh)
 
 ### Why GStreamer instead of FFmpeg?
 
@@ -190,6 +166,26 @@ For information on the GStreamer pipeline, check out [`pipeline.md`](doc/pipelin
 
 The user interface components are created with GTK 3, GObject and AppIndicator (because GTK deprecated `GtkStatusIcon`).
 
+### Why can I perceive some latency in the video playback?
+
+**This issue will likely be fixed by switching entirely to MJPEG instead of the raw YUV video format for streaming video. See issues [#16](https://github.com/elliotkillick/qubes-video-companion/issues/16) and [#13](https://github.com/elliotkillick/qubes-video-companion/issues/13).**
+
+This means the CPU is at its limit (nearing or at 100% usage). To check this, install GNOME System Monitor (packaged as `gnome-system-monitor`) in the video receiving VM and assess the CPU usage for each of the processes and overall in the resources graph.
+
+It's important to remember that for security reasons, qubes do not have access to the GPU and therefore, must rely entirely on the CPU even for graphical workloads.
+
+To fix the latency, do one or more of the following:
+
+1. Remove or shrink the size of any windows playing back the video stream being shared to the video receiving VM
+    - Just like in video editing, playing back raw, unencoded video in realtime is a very computationally expensive task that takes much more processing power than recording and in this case even sharing the video across VMs combined
+    - For example, in OBS, right-click the video preview and uncheck `Enable preview` when recording
+2. Pause any videos from playing (e.g. YouTube videos) in any of the VMs
+3. Assign more vCPUs to the video receiving VM
+    - The video rendering workload lends decently to multithreading so the more vCPUs the better
+    - The vCPU count can be changed in the settings for that qube
+4. Reduce the resolution and/or frame rate the webcam is recording at to a supported lower quality setting
+    - Refer to [set-webcam-format.sh](scripts/set-webcam-format.sh)
+
 ## Contributing
 
 You can start by giving this project a star! High quality PRs are also welcome! Take a look at the issue tracker if you're looking for things that need improvement. Other improvements such as more elegant ways of completing a task, code cleanup and other fixes are also welcome.
@@ -203,10 +199,12 @@ This project is the product of an independent effort that is not officially endo
 ## Tested Working Applications
 
 - [Cheese](https://wiki.gnome.org/Apps/Cheese)
-- [Chromium](https://www.chromium.org)
-- [Open Broadcaster Software (OBS)](https://obsproject.com/)
+- Chromium-based browsers (e.g. Brave and Google Chrome)
+- Firefox
+    - This [patch](https://github.com/umlaeute/v4l2loopback/pull/435) for `v4l2loopback` is necessary to get this working
+- Open Broadcaster Software (OBS)
     - For the `Video Capture Device (V4L2)` source click on the `Properties` settings cog and use video format `Planar YUV 4:2:0` (as opposed to `YV12 (Emulated)`) and uncheck `Use buffering` for optimal performance
-- [Zoom](https://zoom.us)
+- Zoom
 
 ## Webcam Hardware Compatibility List (HCL)
 
@@ -215,6 +213,11 @@ This is the list of webcams confirmed to work with Qubes Video Companion.
 The model of a given webcam can be found by running `v4l2-ctl --list-devices` in the virtual machine with the webcam device attached.
 
 - Logitech C922 Pro Stream Webcam
+- SunplusIT Inc Integrated Camera
+
+## Mailing List Thread
+
+- [Original announcement](https://groups.google.com/g/qubes-users/c/nRUjKErIRUQ)
 
 ## End Goals
 
