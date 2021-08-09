@@ -182,7 +182,6 @@ To fix the latency, do one or more of the following:
     - The video rendering workload lends decently to multithreading so the more vCPUs the better
     - The vCPU count can be changed in the settings for that qube
 4. Reduce the resolution and/or frame rate the webcam is recording at to a supported lower quality setting
-    - Refer to [set-webcam-format.sh](scripts/set-webcam-format.sh)
 
 ## Contributing
 
