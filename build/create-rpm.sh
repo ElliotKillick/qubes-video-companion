@@ -42,14 +42,13 @@ tar cvzf "qubes-video-companion-$latest_version.tar.gz" "qubes-video-companion-$
 sudo dnf -y install rpm-build rpmdevtools pandoc
 rpmdev-setuptree
 cp "qubes-video-companion-$latest_version.tar.gz" "$HOME/rpmbuild/SOURCES"
-cp qubes-video-companion/rpm_spec/* "$HOME/rpmbuild/SPECS"
 
 if [ "$package_type" != "dom0" ]; then
     cp qubes-video-companion/rpm_spec/qubes-video-companion.spec.in "$HOME/rpmbuild/SPECS"
     rpmbuild -ba ~/rpmbuild/SPECS/qubes-video-companion.spec.in
     echo "Run the following command to install the package: sudo dnf install ~/rpmbuild/RPMS/noarch/qubes-video-companion-$latest_version-1.fcXX.noarch.rpm" >&2
 else
-    cp qubes-video-companion/rpm_spec/qubes-video-companion.spec.in "$HOME/rpmbuild/SPECS"
+    cp qubes-video-companion/rpm_spec/qubes-video-companion-dom0.spec.in "$HOME/rpmbuild/SPECS"
     rpmbuild -ba ~/rpmbuild/SPECS/qubes-video-companion-dom0.spec.in
     echo "Transfer this package to dom0 and install, see here: https://www.qubes-os.org/doc/how-to-copy-from-dom0/" >&2
     echo "In dom0, run the following command to install the package: sudo dnf install ./qubes-video-companion-$latest_version-1.fcXX.noarch.rpm" >&2
