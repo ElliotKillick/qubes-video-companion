@@ -13,6 +13,7 @@ Depends: gir1.2-ayatanaappindicator3-0.1,
          gstreamer1.0-plugins-good,
          gstreamer1.0-tools,
          python3,
+         v4l2loopback-dkms (>= 0.12.5-1),
          ${misc:Depends}
 Description: Securely stream webcams and share screens across virtual machines
  Qubes Video Companion is a tool for securely streaming webcams and sharing
