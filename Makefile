@@ -63,3 +63,4 @@ install-license:
 
 clean:
 	$(MAKE) -C doc clean
+.PHONY: clean install-license install-policy install-both install-dom0 install-v4l2loopback-script build help
