@@ -13,8 +13,116 @@ Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  pandoc
+Requires:       qubes-video-companion-sender
+Requires:       qubes-video-companion-receiver
+Requires:       qubes-video-companion-license
+Recommends:     qubes-video-companion-docs
+
+%package license
+Summary:        License of qubes-video-companion
+BuildArch:      noarch
+
+%description license
+License file of qubes-video-companion
+
+%files license
+%{_licensedir}/qubes-video-companion/LICENSE
+
+%package sender
+Summary:        Video sender part of qubes-video-companion
+BuildArch:      noarch
 Requires:       gstreamer1-plugins-good
 Requires:       python3
+Requires:       qubes-video-companion-license
+
+%description sender
+Qubes Video Companion is a tool for securely streaming webcams and sharing
+screens across virtual machines.
+
+It accomplishes this by creating a uni-directional flow of raw video that is
+passed from one virtual machine to another through file descriptors thereby
+allowing both machines to be completely air-gapped with no networking stacks
+exposed. This design makes the side of the video sending virtual machine 100%
+immune to attack and only leaves a very small attack surface on the side of
+the video receiving virtual machine.
+
+The project emphasizes correctness and security all thae while also sporting
+superb performance by maintaining a small footprint of the available
+computational resources and low latency even at Full HD and greater
+resolutions at 30 or more frames per second.
+
+This package contains the video-sending portion of Qubes Video Companion.
+
+%files sender
+%{_sysconfdir}/qubes-rpc/qvc.Webcam
+%{_sysconfdir}/qubes-rpc/qvc.ScreenShare
+%{_sysconfdir}/qubes/rpc-config/qvc.Webcam
+%{_sysconfdir}/qubes/rpc-config/qvc.ScreenShare
+%{_datadir}/qubes-video-companion/sender/service.py
+%{_datadir}/qubes-video-companion/sender/webcam.py
+%{_datadir}/qubes-video-companion/sender/screenshare.py
+%{_datadir}/qubes-video-companion/sender/tray_icon.py
+
+%package receiver
+Summary:        Video receiver part of qubes-video-companion
+BuildArch:      noarch
+BuildRequires:  pandoc
+Requires:       gstreamer1-plugins-good
+Requires:       python3
+Requires:       qubes-video-companion-license
+
+%description receiver
+Qubes Video Companion is a tool for securely streaming webcams and sharing
+screens across virtual machines.
+
+It accomplishes this by creating a uni-directional flow of raw video that is
+passed from one virtual machine to another through file descriptors thereby
+allowing both machines to be completely air-gapped with no networking stacks
+exposed. This design makes the side of the video sending virtual machine 100%
+immune to attack and only leaves a very small attack surface on the side of
+the video receiving virtual machine.
+
+The project emphasizes correctness and security all thae while also sporting
+superb performance by maintaining a small footprint of the available
+computational resources and low latency even at Full HD and greater
+resolutions at 30 or more frames per second.
+
+This package contains the video-receiving portion of Qubes Video Companion.
+
+%files receiver
+%{_mandir}/man1/qubes-video-companion.1.gz
+%{_bindir}/qubes-video-companion
+%{_datadir}/qubes-video-companion/receiver/setup.sh
+%{_datadir}/qubes-video-companion/receiver/receiver.py
+%{_datadir}/qubes-video-companion/receiver/destroy.sh
+%{_datadir}/qubes-video-companion/receiver/common.sh
+
+%package docs
+Summary:        Documentation for qubes-video-companion
+
+%description docs
+Qubes Video Companion is a tool for securely streaming webcams and sharing
+screens across virtual machines.
+
+It accomplishes this by creating a uni-directional flow of raw video that is
+passed from one virtual machine to another through file descriptors thereby
+allowing both machines to be completely air-gapped with no networking stacks
+exposed. This design makes the side of the video sending virtual machine 100%
+immune to attack and only leaves a very small attack surface on the side of
+the video receiving virtual machine.
+
+The project emphasizes correctness and security all thae while also sporting
+superb performance by maintaining a small footprint of the available
+computational resources and low latency even at Full HD and greater
+resolutions at 30 or more frames per second.
+
+This package contains the documentation for Qubes Video Companion.
+
+%files docs
+%{_docdir}/qubes-video-companion/README.md
+%{_docdir}/qubes-video-companion/pipeline.md
+%{_docdir}/qubes-video-companion/visualizations/*
+%{_datadir}/qubes-video-companion/scripts/webcam.html
 
 %description
 Qubes Video Companion is a tool for securely streaming webcams and sharing
@@ -42,29 +150,9 @@ Qubes RPC policies which dom0 enforces.
 %make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=%{?buildroot} install-vm install-license
+rm -rf -- "$RPM_BUILD_ROOT"
+make 'DESTDIR=%{?buildroot}' install-vm install-license
 
-%files
-%{_licensedir}/qubes-video-companion/LICENSE
-%{_docdir}/qubes-video-companion/README.md
-%{_docdir}/qubes-video-companion/pipeline.md
-%{_docdir}/qubes-video-companion/visualizations/*
-%{_mandir}/man1/qubes-video-companion.1.gz
-%{_bindir}/qubes-video-companion
-%{_sysconfdir}/qubes-rpc/qvc.Webcam
-%{_sysconfdir}/qubes-rpc/qvc.ScreenShare
-%{_sysconfdir}/qubes/rpc-config/qvc.Webcam
-%{_sysconfdir}/qubes/rpc-config/qvc.ScreenShare
-%{_datadir}/qubes-video-companion/receiver/setup.sh
-%{_datadir}/qubes-video-companion/receiver/receiver.py
-%{_datadir}/qubes-video-companion/receiver/destroy.sh
-%{_datadir}/qubes-video-companion/receiver/common.sh
-%{_datadir}/qubes-video-companion/sender/service.py
-%{_datadir}/qubes-video-companion/sender/webcam.py
-%{_datadir}/qubes-video-companion/sender/screenshare.py
-%{_datadir}/qubes-video-companion/sender/tray_icon.py
-%{_datadir}/qubes-video-companion/scripts/webcam.html
 
 %changelog
 * Wed Feb 17 2021 Elliot Killick <elliotkillick@zohomail.eu> 1.0.0-1
