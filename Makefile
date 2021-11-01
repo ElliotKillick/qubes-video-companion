@@ -8,9 +8,9 @@ DATADIR ?= /usr/share
 SYSCONFDIR ?= /etc
 QREXECDIR ?= $(SYSCONFDIR)/qubes-rpc
 
-INSTALL_DIR = install -d
-INSTALL_PROGRAM = install -D
-INSTALL_DATA = install -Dm 644
+INSTALL_DIR = install -d --
+INSTALL_PROGRAM = install -D --
+INSTALL_DATA = install -Dm 644 --
 
 help:
 	@echo "make build		Build components"
@@ -24,6 +24,10 @@ help:
 build:
 	$(MAKE) -C doc manpages
 
+install-v4l2loopback-script:
+	$(INSTALL_PROGRAM) scripts/v4l2loopback/install.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
+	$(INSTALL_DATA) scripts/v4l2loopback/author.asc $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
+
 install-vm: install-both
 	$(INSTALL_DIR) $(DESTDIR)$(BINDIR)
 	$(INSTALL_PROGRAM) receiver/$(PKGNAME) $(DESTDIR)$(BINDIR)
@@ -35,8 +39,6 @@ install-vm: install-both
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_DATA) scripts/webcam.html $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts
 	$(INSTALL_DIR) $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
-	$(INSTALL_PROGRAM) scripts/v4l2loopback/install.sh $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
-	$(INSTALL_DATA) scripts/v4l2loopback/author.asc $(DESTDIR)$(DATADIR)/$(PKGNAME)/scripts/v4l2loopback
 	$(MAKE) -C doc install
 
 install-dom0: install-both install-policy
@@ -61,3 +63,4 @@ install-license:
 
 clean:
 	$(MAKE) -C doc clean
+.PHONY: clean install-license install-policy install-both install-dom0 install-v4l2loopback-script build help
