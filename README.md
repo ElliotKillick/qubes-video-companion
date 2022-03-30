@@ -61,11 +61,13 @@ A secure confirmation dialog will appear asking where the webcam stream is to be
 
 Simply run the following command in the virtual machine of the screen sharing recipient:
 
-`qubes-video-companion screenshare`
+`qubes-video-companion screenshare [screenId]`
 
 A secure confirmation dialog will appear asking where the screen to share is to be sourced from. Select any qube as the target screen, this could be a regular unprivileged qube such as `personal` or a [DisposableVM](https://www.qubes-os.org/doc/disposablevm/), or the ultimately trusted `dom0` (caution is advised to avoid information disclosure. Afterwards, confirm the operation by clicking `OK`.
 
 Note that confirmation isn't required when a VM wants to view the screen of a DisposableVM it launched itself because the parent VM already has full control over the DisposableVM.
+
+The command above will share all active monitors in a multi monitor setup per default. You can pass the screenId as optional parameter to share a specific screen only.
 
 ### Preview
 
