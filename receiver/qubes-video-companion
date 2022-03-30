@@ -9,7 +9,7 @@ set -E # Enable function inheritance of traps
 trap exit ERR
 
 usage() {
-    echo "Usage: qubes-video-companion webcam|screenshare"
+    echo "Usage: qubes-video-companion webcam|screenshare [screenId]"
 } >&2
 
 video_source="$1"
@@ -53,4 +53,8 @@ fi
 /usr/share/qubes-video-companion/receiver/setup.sh
 # Disabling buffering should lower latency and it doesn't seem to impact performance
 # Filter standard error escape characters for safe printing to the terminal from the video sender
-qrexec-client-vm --buffer-size=0 --filter-escape-chars-stderr -- dom0 "$qvc_service" /usr/share/qubes-video-companion/receiver/receiver.py
+if [ -z "$2" ]; then
+	qrexec-client-vm --buffer-size=0 --filter-escape-chars-stderr -- dom0 "$qvc_service" /usr/share/qubes-video-companion/receiver/receiver.py
+else
+	qrexec-client-vm --buffer-size=0 --filter-escape-chars-stderr -- dom0 "$qvc_service+$2" /usr/share/qubes-video-companion/receiver/receiver.py
+fi

@@ -4,9 +4,14 @@
 # Copyright (C) 2021 Demi Marie Obenour <demi@invisiblethingslab.com>
 # Licensed under the MIT License. See LICENSE file for details.
 
-import sys
-import struct
 import os
+import struct
+import sys
+
+import gi
+gi.require_version('Gdk', '3.0')
+from gi.repository import Gdk
+
 from typing import NoReturn
 
 def main(argv) -> NoReturn:
@@ -52,13 +57,16 @@ def read_video_parameters() -> (int, int, int):
         raise AssertionError('bug')
 
     untrusted_input = os.read(0, input_size)
+    if not untrusted_input:
+        raise RuntimeError('can not read from stream')
     if len(untrusted_input) != input_size:
         raise RuntimeError('wrong number of bytes read')
     untrusted_width, untrusted_height, untrusted_fps = s.unpack(untrusted_input)
     del untrusted_input
 
-    if untrusted_width > 4096 or untrusted_height > 4096 or untrusted_fps > 4096:
-        raise RuntimeError('excessive width, height, and/or fps')
+    screen = Gdk.Display().get_default().get_default_screen()
+    if untrusted_width > screen.width() or untrusted_height > screen.height() or untrusted_fps > 4096:
+        print('warning: excessive width, height, and/or fps')
     width, height, fps = untrusted_width, untrusted_height, untrusted_fps
     del untrusted_width, untrusted_height, untrusted_fps
 
