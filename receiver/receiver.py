@@ -65,8 +65,18 @@ def read_video_parameters() -> (int, int, int):
     del untrusted_input
 
     screen = Gdk.Display().get_default().get_default_screen()
-    if untrusted_width > screen.width() or untrusted_height > screen.height() or untrusted_fps > 4096:
-        print('warning: excessive width, height, and/or fps')
+    if untrusted_width > screen.width() or untrusted_height > screen.height():
+        raise RuntimeError('excessive width, height')
+    
+    if untrusted_fps > 60:
+        raise RuntimeError('excessive fps')
+    
+    if untrusted_width > (3840 * 3):
+        raise RuntimeError('excessive width')
+
+    if untrusted_height > (2160 * 3):
+        raise RuntimeError('excessive height')
+    
     width, height, fps = untrusted_width, untrusted_height, untrusted_fps
     del untrusted_width, untrusted_height, untrusted_fps
 
