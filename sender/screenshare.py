@@ -37,7 +37,12 @@ class ScreenShare(Service):
     def parse_args(self):
         import argparse
         parser = argparse.ArgumentParser()
-        parser.add_argument('screen', type=int, nargs='?', default=None, help='id of the screen to share')
+        parser.add_argument(
+            'screen',
+            type=int,
+            nargs='?',
+            default=None,
+            help='id of the screen to share')
 
         args = parser.parse_args()
         self._share_specific_screen = args.screen
@@ -87,10 +92,9 @@ class ScreenShare(Service):
             
             args.insert(1, "startx={}".format(geometry.x))
             args.insert(2, "starty={}".format(geometry.y))
-            args.insert(3, "endx={}".format(geometry.x+geometry.width-1))
-            args.insert(4, "endy={}".format(geometry.y+geometry.height-1))
+            args.insert(3, "endx={}".format(geometry.x + geometry.width -1))
+            args.insert(4, "endy={}".format(geometry.y + geometry.height -1))
         
-        print(" ".join(args))
         return args
 
 if __name__ == '__main__':
