@@ -66,6 +66,10 @@ class Service(object):
         """
         raise NotImplementedError("Pure virtual method called!")
 
+    def parse_args(self):
+        import argparse
+        argparse.ArgumentParser().parse_args()
+
     def quit(self) -> None:
         """Close the pipeline"""
 
@@ -119,8 +123,8 @@ class Service(object):
     def main(cls, self) -> NoReturn:
         """Program entry point"""
 
-        import argparse, qubesdb, os
-        argparse.ArgumentParser().parse_args()
+        import qubesdb, os
+        self.parse_args()
 
         try:
             target_domain = qubesdb.QubesDB().read('/name').decode('ascii', 'strict')
